@@ -132,7 +132,7 @@ transform:
     - fromField: docid
       toValue: doc
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: tenderee_hash
       toField: tenderee
       isAttr: true
@@ -144,7 +144,7 @@ transform:
     - fromField: tenderee_hash
       toValue: tenderee
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: agency_hash
       toField: agency
       isAttr: true
@@ -156,7 +156,7 @@ transform:
     - fromField: agency_hash
       toValue: agency
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: winsupplier_hash
       toField: winsupplier
       isAttr: true
@@ -168,7 +168,7 @@ transform:
     - fromField: winsupplier_hash
       toValue: win
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: firstsupplier_hash
       toField: firstsupplier
       isAttr: true
@@ -180,7 +180,7 @@ transform:
     - fromField: firstsupplier_hash
       toValue: bid
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: secondsupplier_hash
       toField: secondsupplier
       isAttr: true
@@ -192,7 +192,7 @@ transform:
     - fromField: secondsupplier_hash
       toValue: bid
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: thirdsupplier_hash
       toField: thirdsupplier
       isAttr: true
@@ -204,7 +204,7 @@ transform:
     - fromField: thirdsupplier_hash
       toValue: bid
       isAttr: true
-      relationship: type
+      relationship: company.type
     - fromField: tenderee_hash
       toField: agency_hash
       relationship: cooperation
