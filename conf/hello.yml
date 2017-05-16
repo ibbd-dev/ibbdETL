@@ -52,6 +52,7 @@ transform:
     - fromField: name_hash
       toField: friend_hash
       relationship: friend
+      isTwoWay: true
 
 target:
   silence: false

@@ -1,0 +1,271 @@
+source:
+  type: csv
+  params:
+    filename: data/bidi-graph-utf8.csv
+  fields:
+  - map: province
+    name: province
+    type: String
+  - map: secondsupplier
+    name: secondsupplier
+    type: Integer
+  - map: docid
+    name: docid
+    type: Integer
+  - map: projectname
+    name: projectname
+    type: String
+  - map: thirdsupplier
+    name: thirdsupplier
+    type: Integer
+  - map: projectno
+    name: projectno
+    type: String
+  - map: dealprice
+    name: dealprice
+    type: Integer
+  - map: winsupplier
+    name: winsupplier
+    type: Integer
+  - map: thirdprice
+    name: thirdprice
+    type: Integer
+  - map: winprice
+    name: winprice
+    type: Integer
+  - map: tenderee
+    name: tenderee
+    type: String
+  - map: agencycontact
+    name: agencycontact
+    type: String
+  - map: firstsupplier
+    name: firstsupplier
+    type: Integer
+  - map: id
+    name: id
+    type: Integer
+  - map: firstprice
+    name: firstprice
+    type: Integer
+  - map: tendereephone
+    name: tendereephone
+    type: Integer
+  - map: secondprice
+    name: secondprice
+    type: Integer
+  - map: anouncereleasedate
+    name: anouncereleasedate
+    type: String
+  - map: agency
+    name: agency
+    type: String
+  - map: agencyphone
+    name: agencyphone
+    type: String
+  - map: wintime
+    name: wintime
+    type: Integer
+
+transform:
+  - type: modifier
+    name: addPrefix
+    field: docid
+    prefix: 'd.'
+  - type: modifier
+    name: hash
+    field: tenderee
+    newField: tenderee_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: tenderee_hash
+    prefix: 't.'
+  - type: modifier
+    name: hash
+    field: agency
+    newField: agency_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: agency_hash
+    prefix: 'a.'
+  - type: modifier
+    name: hash
+    field: winsupplier
+    newField: winsupplier_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: winsupplier_hash
+    prefix: 'w.'
+  - type: modifier
+    name: hash
+    field: firstsupplier
+    newField: firstsupplier_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: firstsupplier_hash
+    prefix: 's.'
+  - type: modifier
+    name: hash
+    field: secondsupplier
+    newField: secondsupplier_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: secondsupplier_hash
+    prefix: 's.'
+  - type: modifier
+    name: hash
+    field: thirdsupplier
+    newField: thirdsupplier_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: thirdsupplier_hash
+    prefix: 's.'
+  - type: expand
+    name: graph
+    relationships:
+    - fromField: docid
+      toValue: doc
+      isAttr: true
+      relationship: type
+    - fromField: tenderee_hash
+      toField: tenderee
+      isAttr: true
+      relationship: name
+    - fromField: tenderee_hash
+      toField: tendereecontact
+      isAttr: true
+      relationship: contact
+    - fromField: tenderee_hash
+      toValue: tenderee
+      isAttr: true
+      relationship: type
+    - fromField: agency_hash
+      toField: agency
+      isAttr: true
+      relationship: name
+    - fromField: agency_hash
+      toField: agencycontact
+      isAttr: true
+      relationship: contact
+    - fromField: agency_hash
+      toValue: agency
+      isAttr: true
+      relationship: type
+    - fromField: winsupplier_hash
+      toField: winsupplier
+      isAttr: true
+      relationship: name
+    - fromField: winsupplier_hash
+      toField: winprice
+      isAttr: true
+      relationship: money
+    - fromField: winsupplier_hash
+      toValue: win
+      isAttr: true
+      relationship: type
+    - fromField: firstsupplier_hash
+      toField: firstsupplier
+      isAttr: true
+      relationship: name
+    - fromField: firstsupplier_hash
+      toField: firstprice
+      isAttr: true
+      relationship: money
+    - fromField: firstsupplier_hash
+      toValue: bid
+      isAttr: true
+      relationship: type
+    - fromField: secondsupplier_hash
+      toField: secondsupplier
+      isAttr: true
+      relationship: name
+    - fromField: secondsupplier_hash
+      toField: secondprice
+      isAttr: true
+      relationship: money
+    - fromField: secondsupplier_hash
+      toValue: bid
+      isAttr: true
+      relationship: type
+    - fromField: thirdsupplier_hash
+      toField: thirdsupplier
+      isAttr: true
+      relationship: name
+    - fromField: thirdsupplier_hash
+      toField: thirdprice
+      isAttr: true
+      relationship: money
+    - fromField: thirdsupplier_hash
+      toValue: bid
+      isAttr: true
+      relationship: type
+    - fromField: tenderee_hash
+      toField: agency_hash
+      relationship: cooperation
+      isTwoWay: true
+    - fromField: tenderee_hash
+      toField: winsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: tenderee_hash
+      toField: firstsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: tenderee_hash
+      toField: secondsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: tenderee_hash
+      toField: thirdsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: agency_hash
+      toField: winsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: agency_hash
+      toField: firstsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: agency_hash
+      toField: secondsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: agency_hash
+      toField: thirdsupplier_hash
+      relationship: bid
+      isTwoWay: true
+    - fromField: winsupplier_hash
+      toField: firstsupplier_hash
+      relationship: compete
+      isTwoWay: true
+    - fromField: winsupplier_hash
+      toField: secondsupplier_hash
+      relationship: compete
+      isTwoWay: true
+    - fromField: winsupplier_hash
+      toField: thirdsupplier_hash
+      relationship: compete
+      isTwoWay: true
+    - fromField: firstsupplier_hash
+      toField: secondsupplier_hash
+      relationship: compete
+      isTwoWay: true
+    - fromField: firstsupplier_hash
+      toField: thirdsupplier_hash
+      relationship: compete
+      isTwoWay: true
+    - fromField: secondsupplier_hash
+      toField: thirdsupplier_hash
+      relationship: compete
+      isTwoWay: true
+
+target:
+  silence: false
+  type: Static

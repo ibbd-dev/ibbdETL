@@ -26,6 +26,7 @@ class Transform:
       - fromField: name
         toField: friend
         relationship: friend
+        isTwoWay: true
     """
     # 属性允许的数据类型
     toTypes = ['string', 'int', 'float', 'double', 'boolean', 'date', 'dateTime', 'geojson']
@@ -38,10 +39,21 @@ class Transform:
         for row in rows:
             for relation in config['relationships']:
                 res = {
-                    'from': row[relation['fromField']],
-                    'to': row[relation['toField']],
+                    'from': row[relation['fromField']].strip(),
                     'relationship': relation['relationship'],
                 }
+
+                # to的值允许直接指定，例如类型
+                if 'toField' in relation:
+                    res['to'] = row[relation['toField']]
+                elif 'toValue' in relation:
+                    res['to'] = relation['toValue']
+                else:
+                    raise Exception("to value not exist!")
+
+                if len(res['from']) == 0 or len(res['to']) == 0:
+                    # 过滤掉空的数据
+                    continue
 
                 res['from'] = u"<%s>" % res['from']
                 res['relationship'] = u"<%s>" % res['relationship']
@@ -55,6 +67,10 @@ class Transform:
 
                 data.append([u"%s\t%s\t%s\t." % \
                             (res['from'], res['relationship'], res['to'])])
+                if 'isTwoWay' in relation and relation['isTwoWay']:
+                    # 是否为双向关系
+                    data.append([u"%s\t%s\t%s\t." % \
+                                (res['to'], res['relationship'], res['from'])])
 
         return data
 

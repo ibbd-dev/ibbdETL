@@ -24,8 +24,12 @@ class Transform:
             config['len'] = 10
 
         for row in rows:
-            row[config['newField']] = self._hash(row[config['field']],
-                                                 config['len'])
+            if len(row[config['field']]) > 0:
+                row[config['newField']] = self._hash(row[config['field']],
+                                                     config['len'])
+            else:
+                row[config['newField']] = ''
+
         return rows
 
     def _hash(self, val, hash_len):

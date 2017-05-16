@@ -19,5 +19,8 @@ class Transform:
 
     def do(self, rows, config):
         for row in rows:
-            row[config['field']] = config['prefix'] + row[config['field']]
+            if len(row[config['field']]) > 0:
+                row[config['field']] = config['prefix'] + row[config['field']]
+            else:
+                row[config['field']] = ''
         return rows
