@@ -1,7 +1,7 @@
 source:
   type: csv
   params:
-    filename: hello.csv
+    filename: data/hello.csv
     delimiter: ','
   fields:
   - map: name
