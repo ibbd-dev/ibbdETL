@@ -1,0 +1,28 @@
+source:
+  type: csv
+  params:
+    filename: hello.csv
+    delimiter: ','
+  fields:
+  - map: hello
+    name: hello
+    type: String
+  - map: world
+    name: world
+    type: Integer
+
+transform:
+  - filter: DropByCondition
+    condition: IsEmpty
+    fieldNames:
+      - PROJECTNAME
+  - expand: Graph
+    relationshipMap:
+    - fromField: name
+      toField: name
+      isAttr: true
+      relationship: name
+
+target:
+  silence: false
+  type: Static
