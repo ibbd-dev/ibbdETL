@@ -4,24 +4,54 @@ source:
     filename: hello.csv
     delimiter: ','
   fields:
-  - map: hello
-    name: hello
+  - map: name
+    name: name
     type: String
-  - map: world
-    name: world
+  - map: age
+    name: age
     type: Integer
+  - map: friend
+    name: friend
+    type: String
 
 transform:
-  - filter: DropByCondition
-    condition: IsEmpty
-    fieldNames:
-      - PROJECTNAME
-  - expand: Graph
-    relationshipMap:
-    - fromField: name
+  - type: modifier
+    name: hash
+    field: name
+    newField: name_hash
+    len: 10
+  - type: modifier
+    name: addPrefix
+    field: name_hash
+    prefix: 'u.'
+  - type: modifier
+    name: hash
+    field: friend
+    newField: friend_hash
+    len: 10
+  - type: modifier
+    name: addPrefix
+    field: friend_hash
+    prefix: 'u.'
+  - type: expand
+    name: graph
+    relationships:
+    - fromField: name_hash
       toField: name
       isAttr: true
       relationship: name
+    - fromField: name_hash
+      toField: age
+      toType: Int
+      isAttr: true
+      relationship: age
+    - fromField: friend_hash
+      toField: friend
+      isAttr: true
+      relationship: name
+    - fromField: name_hash
+      toField: friend_hash
+      relationship: friend
 
 target:
   silence: false

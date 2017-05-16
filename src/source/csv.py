@@ -23,7 +23,6 @@ class Source:
 
     def nextRow(self):
         for row in self.reader:
-            print(row)
             yield row
 
     def __del__(self):

@@ -30,8 +30,8 @@ def cli(config_file):
         target = Target(config_data['target'])
 
         for row in reader.nextRow():
-            row = transform.do(row)
-            target.write(row)
+            for row_new in transform.do(row):
+                target.write(row_new)
 
 
 if __name__ == "__main__":

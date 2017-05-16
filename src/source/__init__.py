@@ -15,7 +15,6 @@ class Reader:
     def __init__(self, config):
         self.config = config
 
-        print(config)
         source_module = import_module("source." + config['type'])
         self.source = source_module.Source(config['params'])
 
