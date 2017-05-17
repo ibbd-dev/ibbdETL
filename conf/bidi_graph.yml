@@ -3,68 +3,47 @@ source:
   params:
     filename: data/bidi-graph-utf8.csv
   fields:
-  - map: province
-    name: province
+  - name: province
     type: String
-  - map: secondsupplier
-    name: secondsupplier
+  - name: secondsupplier
     type: Integer
-  - map: docid
-    name: docid
+  - name: docid
     type: Integer
-  - map: projectname
-    name: projectname
+  - name: projectname
     type: String
-  - map: thirdsupplier
-    name: thirdsupplier
+  - name: thirdsupplier
     type: Integer
-  - map: projectno
-    name: projectno
+  - name: projectno
     type: String
-  - map: dealprice
-    name: dealprice
+  - name: dealprice
     type: Integer
-  - map: winsupplier
-    name: winsupplier
+  - name: winsupplier
     type: Integer
-  - map: thirdprice
-    name: thirdprice
+  - name: thirdprice
     type: Integer
-  - map: winprice
-    name: winprice
+  - name: winprice
     type: Integer
-  - map: tenderee
-    name: tenderee
+  - name: tenderee
     type: String
-  - map: agencycontact
-    name: agencycontact
+  - name: agencycontact
     type: String
-  - map: firstsupplier
-    name: firstsupplier
+  - name: firstsupplier
     type: Integer
-  - map: id
-    name: id
+  - name: id
     type: Integer
-  - map: firstprice
-    name: firstprice
+  - name: firstprice
     type: Integer
-  - map: tendereephone
-    name: tendereephone
+  - name: tendereephone
     type: Integer
-  - map: secondprice
-    name: secondprice
+  - name: secondprice
     type: Integer
-  - map: anouncereleasedate
-    name: anouncereleasedate
+  - name: anouncereleasedate
     type: String
-  - map: agency
-    name: agency
+  - name: agency
     type: String
-  - map: agencyphone
-    name: agencyphone
+  - name: agencyphone
     type: String
-  - map: wintime
-    name: wintime
+  - name: wintime
     type: Integer
 
 transform:

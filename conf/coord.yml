@@ -1,0 +1,27 @@
+source:
+  type: csv
+  params:
+    filename: data/coord.csv
+  fields:
+  - name: lng
+    type: float
+  - name: lat
+    type: float
+
+transform:
+  - type: modifier
+    name: coordTransform
+    from:
+      type: wgs84
+      lngField: lng
+      latField: lat
+    to:
+      type: bd09
+      latField: lat
+      lngField: lng
+
+target:
+  type: csv
+  params:
+    filename: data/coord-output.csv
+

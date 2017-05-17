@@ -4,14 +4,11 @@ source:
     filename: data/hello.csv
     delimiter: ','
   fields:
-  - map: name
-    name: name
+  - name: name
     type: String
-  - map: age
-    name: age
+  - name: age
     type: Integer
-  - map: friend
-    name: friend
+  - name: friend
     type: String
 
 transform:
