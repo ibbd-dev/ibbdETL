@@ -4,12 +4,9 @@ source:
     filename: data/hello.csv
     delimiter: ','
   fields:
-  - name: name
-    type: String
-  - name: age
-    type: Integer
-  - name: friend
-    type: String
+    - name: name
+    - name: age
+    - name: friend
 
 transform:
   - type: modifier
@@ -52,5 +49,4 @@ transform:
       isTwoWay: true
 
 target:
-  silence: false
-  type: Static
+  type: console

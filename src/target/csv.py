@@ -19,11 +19,21 @@ class Target:
             self.params['delimiter'] = ','
 
     def write(self, row):
-        if self.writer == False:
+        if not self.writer:
             fieldnames = list(row.keys())
             self.writer = csv.DictWriter(self.csvfile, fieldnames=fieldnames)
             self.writer.writeheader()
         self.writer.writerow(row)
+
+    def batch(self, rows):
+        if not self.writer:
+            fieldnames = list(rows[0].keys())
+            self.writer = csv.DictWriter(self.csvfile, fieldnames=fieldnames)
+            self.writer.writeheader()
+
+        for row in rows:
+            self.writer.writerow(row)
+
 
     def __del__(self):
         self.csvfile.close()

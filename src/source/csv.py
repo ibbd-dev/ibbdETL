@@ -21,7 +21,7 @@ class Source:
         self.reader = csv.DictReader(
             self.csvfile, delimiter=params['delimiter'])
 
-    def nextRow(self):
+    def next(self):
         for row in self.reader:
             yield row
 

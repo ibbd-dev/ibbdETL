@@ -19,14 +19,17 @@ class Reader:
         module = import_module("source." + config['type'])
         self.source = module.Source(config['params'])
 
-    def nextRow(self):
-        for row in self.source.nextRow():
-            if 'fields' in self.config:
-                for field in self.config['fields']:
-                    row[field['name']] = self._parseType(field['type'],
+    def next(self):
+        for row in self.source.next():
+            res = {}
+            for field in self.config['fields']:
+                if 'type' not in field:
+                    res[field['name']] = row[field['name']]
+                else:
+                    res[field['name']] = self._parseType(field['type'],
                                                          row[field['name']])
 
-            yield row
+            yield res
 
     def _parseType(self, func, val):
         return TypeTransform.__dict__[func].__func__(val)

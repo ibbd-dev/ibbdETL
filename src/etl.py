@@ -29,7 +29,7 @@ def cli(config_file):
         transform = Transform(config_data['transform'])
         target = Target(config_data['target'])
 
-        for row in reader.nextRow():
+        for row in reader.next():
             for row_new in transform.do(row):
                 target.write(row_new)
 
