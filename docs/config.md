@@ -128,9 +128,9 @@ target:
 - [x] `hash`: 对某字段做hash运算，通常用在实体标识字段或者数据脱敏上。
 - [x] `addPrefix`: 给字段值增加前缀
 - [x] `coordTransform`: 各种不同体系的经纬度坐标的转换
-- [ ] `type`: 数据类型转换，例如从整型转化为字符串等。
-- [ ] `template`: 按照模板生成新的字符串
-- [ ] `symbolic`: 符号计算，对字符串进行求值，可以结合`template`先处理成目标字符串，再求值。
+- [x] `type`: 数据类型转换，例如从整型转化为字符串等。
+- [x] `template`: 按照模板生成新的字符串
+- [x] `symbolic`: 符号计算，对字符串进行求值，可以结合`template`先处理成目标字符串，再求值。
 - [ ] `example`: 
 
 ```
@@ -143,7 +143,7 @@ print("hello {name} , your {name} message is {message} ".format(**a))
 对数据进行扩展，例如将本来一行的数据扩展成了2行甚至更多。
 
 - [x] `graph`: 将宽表数据转化为图关系数据，见[文档](/docs/table2graph.md)
-- [ ] `split`: 将一个字段分拆成多行
+- [x] `split`: 将一个字段分拆成多行
 - [ ] `example`: 
 
 
