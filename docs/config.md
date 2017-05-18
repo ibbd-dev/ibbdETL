@@ -23,7 +23,8 @@
 - `type`: 定义数据源的类型
 - `params`: 定义数据源所需要的参数，例如csv的文件名等。不同的数据源只是该参数有所区别。
 - `fields`: 数据输入字段的规范化，例如数据类型转换等。该字段定义只需要定义有用的字段，其他的没有定义的字段将会被过滤掉。下层属性有：
-  - `name`: 字段名称
+  - [ ] `name`: 字段名称
+  - [ ] `defaultValue`: 默认值
   - `type`: 字段的数据类型，允许为空，默认为`string`，支持如下格式：
     - [x] `string`: 默认
     - [x] `float`: 浮点数
@@ -131,13 +132,9 @@ target:
 - [x] `type`: 数据类型转换，例如从整型转化为字符串等。
 - [x] `template`: 按照模板生成新的字符串
 - [x] `symbolic`: 符号计算，对字符串进行求值，可以结合`template`先处理成目标字符串，再求值。
+- [x] `mapping`: 映射，将值映射为相应的值，特别适用于类别变量。
 - [ ] `example`: 
 
-```
-# python的模板字符串
-a = {'name': 'world', 'message': 'hello world'}
-print("hello {name} , your {name} message is {message} ".format(**a))
-```
 
 ### 3.3 数据扩展：expand
 对数据进行扩展，例如将本来一行的数据扩展成了2行甚至更多。
