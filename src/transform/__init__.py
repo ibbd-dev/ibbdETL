@@ -13,14 +13,14 @@ class Transform:
     def __init__(self, config):
         self.config = config
         for row in config:
-            row['_transform_name'] = row['type'] + '.' + row['name']
-            module = import_module('transform.' + row['_transform_name'])
+            transform_name = row['type'] + '.' + row['name']
+            module = import_module('transform.' + transform_name)
             row['_transform'] = module.Transform(row)
 
     def do(self, row):
         rows = [row]
         for config in self.config:
-            rows = self.obj[config['_transform_name']].do(rows)
+            rows = config['_transform'].do(rows)
 
         for row in rows:
             yield row

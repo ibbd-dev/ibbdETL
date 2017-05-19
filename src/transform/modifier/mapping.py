@@ -65,5 +65,5 @@ if __name__ == '__main__':
         {'fromField': '第五期', 'hello': 10},
     ]
 
-    tsf = Transform()
-    print(tsf.do(rows, config))
+    tsf = Transform(config)
+    print(tsf.do(rows))
