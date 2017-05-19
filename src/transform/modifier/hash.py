@@ -15,13 +15,15 @@ class Transform:
       field: name
       newField: name_hash
     """
+    config = {}
 
-    def __init__(self):
-        pass
-
-    def do(self, rows, config):
+    def __init__(self, config):
         if 'len' not in config:
             config['len'] = 10
+        self.config = config
+
+    def do(self, rows):
+        config = self.config
 
         for row in rows:
             if len(row[config['field']]) > 0:

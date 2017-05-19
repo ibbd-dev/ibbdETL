@@ -13,11 +13,13 @@ class Transform:
       field: name_hash
       prefix: 'u.'
     """
+    config = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
-    def do(self, rows, config):
+    def do(self, rows):
+        config = self.config
         for row in rows:
             if len(row[config['field']]) > 0:
                 row[config['field']] = config['prefix'] + row[config['field']]

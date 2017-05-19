@@ -15,12 +15,13 @@ class Transform:
       template: "hello {fieldname1}, world {fieldname2}"
     注：fieldname1 and fieldname2都是已有的元素，元素的值可以是字符串，整数等。
     """
+    config = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
-    def do(self, rows, config):
+    def do(self, rows):
         for row in rows:
-            row[config['field']] = config['template'].format(**row)
+            row[self.config['field']] = self.config['template'].format(**row)
 
         return rows

@@ -16,12 +16,13 @@ class Transform:
       template: "{fieldname1} * 2 + 3"
     注：fieldname1是一个字段名
     """
+    config = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
-    def do(self, rows, config):
+    def do(self, rows):
         for row in rows:
-            row[config['field']] = eval(config['template'].format(**row))
+            row[self.config['field']] = eval(self.config['template'].format(**row))
 
         return rows

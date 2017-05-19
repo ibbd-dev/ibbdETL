@@ -26,16 +26,18 @@ class Transform:
             latField: lat
             lngField: lng
     """
+    config = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
+        self.func_name = "%s_to_%s" % (config['from']['type'], config['to']['type'])
 
-    def do(self, rows, config):
-        func_name = "%s_to_%s" % (config['from']['type'], config['to']['type'])
+    def do(self, rows):
+        config = self.config
         for row in rows:
             lng, lat = self._parse(row[config['from']['lngField']],
                                    row[config['from']['latField']],
-                                   func_name)
+                                   self.func_name)
             row[config['to']['lngField']], row[config['to']['latField']] = lng, lat
 
         return rows

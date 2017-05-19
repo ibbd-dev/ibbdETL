@@ -15,14 +15,15 @@ class Transform:
       field: age
       newType: int
     """
+    config = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
-    def do(self, rows, config):
+    def do(self, rows):
         for row in rows:
-            row[config['field']] = self._parseType(config['newType'],
-                                                   row[config['field']])
+            row[self.config['field']] = self._parseType(self.config['newType'],
+                                                        row[self.config['field']])
 
         return rows
 

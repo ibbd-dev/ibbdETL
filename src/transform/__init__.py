@@ -9,21 +9,18 @@ from importlib import import_module
 
 class Transform:
     config = {}
-    obj = {}
 
     def __init__(self, config):
         self.config = config
         for row in config:
-            obj_name = row['type'] + '.' + row['name']
-            if obj_name not in self.obj:
-                module = import_module('transform.' + obj_name)
-                self.obj[obj_name] = module.Transform()
+            row['_transform_name'] = row['type'] + '.' + row['name']
+            module = import_module('transform.' + row['_transform_name'])
+            row['_transform'] = module.Transform(row)
 
     def do(self, row):
         rows = [row]
         for config in self.config:
-            obj_name = config['type'] + '.' + config['name']
-            rows = self.obj[obj_name].do(rows, config)
+            rows = self.obj[config['_transform_name']].do(rows)
 
         for row in rows:
             yield row

@@ -23,20 +23,23 @@ class Transform:
       - from: '第三期'
         to: 3
     """
+    config = {}
+    mappings = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        for m in config['mapping']:
+            self.mappings[m['from']] = m['to']
 
-    def do(self, rows, config):
+        self.config = config
+
+    def do(self, rows):
+        config = self.config
         fromField = config['from']
         toField = config['to']
         for row in rows:
-            is_map = False
-            for m in config['mapping']:
-                if row[fromField] == m['from']:
-                    row[toField] = m['to']
-                    is_map = True
-            if not is_map:
+            if row[fromField] in self.mappings:
+                row[toField] = self.mappings[row[fromField]]
+            else:
                 row[toField] = config['default']
         return rows
 

@@ -28,13 +28,16 @@ class Transform:
         relationship: friend
         isTwoWay: true
     """
+    config = {}
+
     # 属性允许的数据类型
     toTypes = ['string', 'int', 'float', 'double', 'boolean', 'date', 'dateTime', 'geojson']
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
-    def do(self, rows, config):
+    def do(self, rows):
+        config = self.config
         data = []
         for row in rows:
             for relation in config['relationships']:

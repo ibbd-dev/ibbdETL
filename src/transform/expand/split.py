@@ -19,11 +19,13 @@ class Transform:
     2. newField: 新字段
     3. separator: 分隔符
     """
+    config = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self.config = config
 
-    def do(self, rows, config):
+    def do(self, rows):
+        config = self.config
         data = []
         for row in rows:
             tmp = row[config['field']].split(config['separator'])
