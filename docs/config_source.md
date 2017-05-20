@@ -13,9 +13,10 @@
 
 - `type`: 定义数据源的类型
 - `params`: 定义数据源所需要的参数，例如csv的文件名等。不同的数据源只是该参数有所区别。
+- `fieldNotMatch`: 字段在`fields`中如果没有被匹配，则执行什么操作，默认是`drop`（即丢弃），也可以修改为`keep`
 - `fields`: 数据输入字段的规范化，例如数据类型转换等。该字段定义只需要定义有用的字段，其他的没有定义的字段将会被过滤掉。下层属性有：
-  - [ ] `name`: 字段名称
-  - [ ] `defaultValue`: 默认值
+  - [x] `name`: 字段名称
+  - [x] `defaultValue`: 默认值（当字段值为空字符串时，允许指定默认值）
   - `type`: 字段的数据类型，允许为空，默认为`string`，支持如下格式：
     - [x] `string`: 默认
     - [x] `float`: 浮点数
@@ -30,6 +31,7 @@ source:
   type: csv
   params:
     filename: data/coord.csv
+  fieldNotMatch: drop
   fields:
   - name: lng
     type: float

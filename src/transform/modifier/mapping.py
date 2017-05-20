@@ -15,7 +15,7 @@ class Transform:
       from: fromFieldName
       to: toFieldName
       default: 0
-      mapping:
+      mappings:
       - from: '第一期'
         to: 1
       - from: '第二期'
@@ -27,7 +27,7 @@ class Transform:
     mappings = {}
 
     def __init__(self, config):
-        for m in config['mapping']:
+        for m in config['mappings']:
             self.mappings[m['from']] = m['to']
 
         self.config = config
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         'from': 'fromField',
         'to': 'toField',
         'default': 0,
-        'mapping': [
+        'mappings': [
             {'from': '第一期', 'to': 1},
             {'from': '第二期', 'to': 2},
             {'from': '第三期', 'to': 3},

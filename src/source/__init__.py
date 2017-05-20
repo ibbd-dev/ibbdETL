@@ -12,24 +12,36 @@ from utils.typeTransform import TypeTransform
 class Reader:
     config = {}
     source = {}
+    match_fields = {}
 
     def __init__(self, config):
         self.config = config
+
+        if 'fields' in config:
+            if 'fieldNotMatch' not in config:
+                self.config['fieldNotMatch'] = 'drop'
+            for field in config['fields']:
+                self.match_fields[field['name']] = field
 
         module = import_module("source." + config['type'])
         self.source = module.Source(config['params'])
 
     def next(self):
         for row in self.source.next():
-            res = {}
-            for field in self.config['fields']:
-                if 'type' not in field:
-                    res[field['name']] = row[field['name']]
+            keys = list(row.keys())
+            for key in keys:
+                if key in self.match_fields:
+                    if 'type' in self.match_fields[key]:
+                        row[key] = self._parseType(self.match_fields[key]['type'],
+                                                   row[key])
+                    if 'defaultValue' in self.match_fields[key] \
+                            and row[key] == "":
+                        row[key] = self.match_fields[key]['defaultValue']
                 else:
-                    res[field['name']] = self._parseType(field['type'],
-                                                         row[field['name']])
+                    if self.config['fieldNotMatch'] == 'drop':
+                        del(row[key])
 
-            yield res
+            yield row
 
     def _parseType(self, func, val):
         return TypeTransform.__dict__[func].__func__(val)
