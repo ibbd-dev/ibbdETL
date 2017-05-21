@@ -4,47 +4,49 @@ source:
     filename: data/bidi-graph-utf8.csv
   fields:
   - name: province
-    type: String
+    trim: true
   - name: secondsupplier
-    type: Integer
+    trim: true
   - name: docid
-    type: Integer
+    trim: true
   - name: projectname
-    type: String
+    trim: true
   - name: thirdsupplier
-    type: Integer
+    trim: true
   - name: projectno
-    type: String
+    trim: true
   - name: dealprice
-    type: Integer
+    trim: true
   - name: winsupplier
-    type: Integer
+    trim: true
   - name: thirdprice
-    type: Integer
+    trim: true
   - name: winprice
-    type: Integer
+    trim: true
   - name: tenderee
-    type: String
+    trim: true
   - name: agencycontact
-    type: String
+    trim: true
   - name: firstsupplier
-    type: Integer
+    trim: true
   - name: id
-    type: Integer
+    trim: true
   - name: firstprice
-    type: Integer
+    trim: true
+  - name: tendereecontact
+    trim: true
   - name: tendereephone
-    type: Integer
+    trim: true
   - name: secondprice
-    type: Integer
+    trim: true
   - name: anouncereleasedate
-    type: String
+    trim: true
   - name: agency
-    type: String
+    trim: true
   - name: agencyphone
-    type: String
+    trim: true
   - name: wintime
-    type: Integer
+    trim: true
 
 transform:
   - type: modifier
@@ -105,6 +107,24 @@ transform:
     name: addPrefix
     field: thirdsupplier_hash
     prefix: 's.'
+  - type: modifier
+    name: hash
+    field: tendereecontact
+    newField: tendereecontact_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: tendereecontact_hash
+    prefix: 'tc.'
+  - type: modifier
+    name: hash
+    field: agencycontact
+    newField: agencycontact_hash
+    len: 12
+  - type: modifier
+    name: addPrefix
+    field: agencycontact_hash
+    prefix: 'ac.'
   - type: expand
     name: graph
     relationships:
@@ -116,10 +136,13 @@ transform:
       toField: tenderee
       isAttr: true
       relationship: name
-    - fromField: tenderee_hash
+    - fromField: tendereecontact_hash
       toField: tendereecontact
       isAttr: true
-      relationship: contact
+      relationship: name
+    - fromField: tenderee_hash
+      toField: tendereecontact_hash
+      relationship: company.contact
     - fromField: tenderee_hash
       toValue: tenderee
       isAttr: true
@@ -128,10 +151,13 @@ transform:
       toField: agency
       isAttr: true
       relationship: name
-    - fromField: agency_hash
+    - fromField: agencycontact_hash
       toField: agencycontact
       isAttr: true
-      relationship: contact
+      relationship: name
+    - fromField: agency_hash
+      toField: agencycontact_hash
+      relationship: company.contact
     - fromField: agency_hash
       toValue: agency
       isAttr: true
@@ -246,5 +272,4 @@ transform:
       isTwoWay: true
 
 target:
-  silence: false
-  type: Static
+  type: console

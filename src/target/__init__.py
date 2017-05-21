@@ -44,8 +44,7 @@ class Target:
         if self.batchWrite:
             self.rows.append(row)
             if len(self.rows) > self.batchNum:
-                rows = deepcopy(self.rows)
-                self.rows = []
+                rows, self.rows = deepcopy(self.rows), []
                 self.target.batch(rows)
         else:
             self.target.write(row)

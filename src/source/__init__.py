@@ -20,6 +20,8 @@ class Reader:
         if 'fields' in config:
             if 'fieldNotMatch' not in config:
                 self.config['fieldNotMatch'] = 'drop'
+            if 'trim' not in config:
+                self.config['trim'] = False
             for field in config['fields']:
                 self.match_fields[field['name']] = field
 
@@ -37,6 +39,8 @@ class Reader:
                     if 'defaultValue' in self.match_fields[key] \
                             and row[key] == "":
                         row[key] = self.match_fields[key]['defaultValue']
+                    if self.match_fields[key]['trim']:
+                        row[key] = row[key].strip()
                 else:
                     if self.config['fieldNotMatch'] == 'drop':
                         del(row[key])
