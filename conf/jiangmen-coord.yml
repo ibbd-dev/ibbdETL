@@ -25,7 +25,7 @@ target:
   batch: true
   batchNum: 1000
   params:
-    host: '10.30.195.139:9200'
+    host: 'http://localhost:9200/'
     indexName: test_jiangmen_coord
     deleteIndex: false
 
