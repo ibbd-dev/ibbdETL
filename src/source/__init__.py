@@ -15,16 +15,15 @@ class Reader:
     match_fields = {}
 
     def __init__(self, config):
-        self.config = config
-
         if 'fields' in config:
             if 'fieldNotMatch' not in config:
-                self.config['fieldNotMatch'] = 'drop'
-            if 'trim' not in config:
-                self.config['trim'] = False
+                config['fieldNotMatch'] = 'drop'
             for field in config['fields']:
+                if 'trim' not in field:
+                    field['trim'] = False
                 self.match_fields[field['name']] = field
 
+        self.config = config
         module = import_module("source." + config['type'])
         self.source = module.Source(config['params'])
 
