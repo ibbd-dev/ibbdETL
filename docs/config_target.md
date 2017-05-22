@@ -3,9 +3,11 @@
 
 - [x] console: 控制台
 - [x] csv: CSV格式
-- [ ] es: ElasticSearch
+- [x] es: ElasticSearch
 - [ ] mysql: Mysql数据库
 - [ ] mongodb: MongoDB数据库
+- [ ] json: 输出json的数据格式，需要先映射为宽表
+- [ ] jsonAPI：向http的api接口输出数据，以json的格式。
 - [ ]
 
 ### 2.1 通用参数说明

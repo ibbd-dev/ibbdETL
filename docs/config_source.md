@@ -6,6 +6,8 @@
 - [ ] es: ElasticSearch
 - [ ] mysql: Mysql数据库
 - [ ] mongodb: MongoDB数据库
+- [ ] json: 输入json的数据格式，需要先映射为宽表
+- [ ] jsonAPI：从http的api接口读取数据，以json的格式。
 - [ ] 
 
 ### 1.1 通用参数说明
