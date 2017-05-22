@@ -1,0 +1,31 @@
+source:
+  type: csv
+  params:
+    filename: data/jiangmen-coord.csv
+  fields:
+  - name: lng
+    type: float
+  - name: lat
+    type: float
+
+transform:
+  - type: modifier
+    name: coordTransform
+    from:
+      type: gcj02
+      lngField: lng
+      latField: lat
+    to:
+      type: wgs84
+      latField: lat
+      lngField: lng
+
+target:
+  type: elasticsearch
+  batch: true
+  batchNum: 1000
+  params:
+    host: '10.30.195.139:9200'
+    indexName: test_jiangmen_coord
+    deleteIndex: false
+

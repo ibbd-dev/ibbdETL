@@ -13,7 +13,12 @@ class Target:
     def __init__(self, params):
         """
         初始化，通常做参数配置
-        打开文件操作符等
+        params配置参数：
+        host: es连接字符串
+        indexName: index的名字
+        deleteIndex: 是否删除已经存在的index，默认为false，不删除
+        settings: index的配置。具体的配置项，请看es的文档。
+        idField: id字段。有些数据是包含id字段的
         """
         self.es = IbbdElasticSearch(params)
         self.params = params
