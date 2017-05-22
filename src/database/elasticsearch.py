@@ -75,7 +75,7 @@ class IbbdElasticSearch:
             docs = (self.es.index_op(doc) for doc in rows)
 
         self.es.bulk(docs,
-                     index_name=self.config['indexName'],
+                     index=self.config['indexName'],
                      doc_type=self.config['docType'])
 
         return True
