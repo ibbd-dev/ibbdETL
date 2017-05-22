@@ -52,6 +52,22 @@ target:
 1. `filename`: 定义输出的csv文件名
 2. `delimiter`: 定义分隔符，允许为空，默认值为`,`
 
+### 2.4 ElasticSearch输出：elasticsearch
 
+```
+target:
+  type: elasticsearch
+  batch: true
+  batchNum: 1000
+  params:
+    host: 'http://localhost:9200/'
+    indexName: test_jiangmen_coord
+    deleteIndex: false
+```
 
+1. host: es服务器地址
+2. indexName: 需要写入的index name
+3. deleteIndex: 如果index name已经存在，是否删除旧的index
+4. settings: index配置，可以在这里设置index mapping
+5. idField: 可以指定记录的id字段（如果有的话）
 
