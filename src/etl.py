@@ -39,6 +39,11 @@ def main(config_file, debug=False):
 def cli(config_file, debug):
     """
     基于python3的数据清洗工具。
+
+    \b
+    使用方式:
+        ibbdetl --config-file=/path/to/config-file.yml
+        ibbdetl -c /path/to/config-file.yml
     """
     main(config_file, debug=debug)
 
