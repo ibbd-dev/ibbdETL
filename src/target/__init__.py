@@ -37,7 +37,7 @@ class Target:
         if 'params' not in config:
             self.config['params'] = {}
 
-        module = import_module("target." + self.config['type'])
+        module = import_module("src.target." + self.config['type'])
         self.target = module.Target(self.config['params'])
 
     def write(self, row):

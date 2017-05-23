@@ -7,19 +7,15 @@
 import click
 import yaml
 
-from source import Reader
-from transform import Transform
-from target import Target
+from src.source import Reader
+from src.transform import Transform
+from src.target import Target
 
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 
-@click.command()
-@click.option('--config-file', required=True,
-              help='配置文件')
-@click.version_option(version=__version__, )
-def cli(config_file):
+def main(config_file, debug=False):
     """
     数据清洗
     """
@@ -32,6 +28,19 @@ def cli(config_file):
         for row in reader.next():
             for row_new in transform.do(row):
                 target.write(row_new)
+
+
+@click.command()
+@click.option('-c', '--config-file', required=True,
+              help='yml配置文件')
+@click.option('--debug/--no-debug', default=False,
+              help='是否为测试状态，默认为否')
+@click.version_option(version=__version__, help='版本信息')
+def cli(config_file, debug):
+    """
+    基于python3的数据清洗工具。
+    """
+    main(config_file, debug=debug)
 
 
 if __name__ == "__main__":

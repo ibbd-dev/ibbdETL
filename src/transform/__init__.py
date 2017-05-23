@@ -14,7 +14,7 @@ class Transform:
         self.config = config
         for row in config:
             transform_name = row['type'] + '.' + row['name']
-            module = import_module('transform.' + transform_name)
+            module = import_module('src.transform.' + transform_name)
             row['_transform'] = module.Transform(row)
 
     def do(self, row):

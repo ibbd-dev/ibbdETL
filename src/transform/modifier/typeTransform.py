@@ -3,7 +3,7 @@
 # 数据类型转换
 # Author: Alex
 # Created Time: 2017年05月18日 星期四 10时04分44秒
-from utils.typeTransform import TypeTransform
+from src.utils.typeTransform import TypeTransform
 
 
 class Transform:

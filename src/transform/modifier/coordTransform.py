@@ -5,7 +5,7 @@
 # Author: Alex
 # Created Time: 2017年05月17日 星期三 15时04分51秒
 
-from utils.coordTransform import CoordTransform
+from src.utils.coordTransform import CoordTransform
 
 
 class Transform:

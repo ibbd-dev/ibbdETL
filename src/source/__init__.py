@@ -6,7 +6,7 @@
 # Created Time: 2017年05月16日 星期二 10时57分10秒
 
 from importlib import import_module
-from utils.typeTransform import TypeTransform
+from src.utils.typeTransform import TypeTransform
 
 
 class Reader:
@@ -24,7 +24,7 @@ class Reader:
                 self.match_fields[field['name']] = field
 
         self.config = config
-        module = import_module("source." + config['type'])
+        module = import_module("src.source." + config['type'])
         self.source = module.Source(config['params'])
 
     def next(self):

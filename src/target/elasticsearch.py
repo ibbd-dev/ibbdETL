@@ -3,7 +3,7 @@
 # ElasticSearch数据写入
 # Author: Alex
 # Created Time: 2017年05月22日 星期一 11时37分00秒
-from database.elasticsearch import IbbdElasticSearch
+from src.database.elasticsearch import IbbdElasticSearch
 
 
 class Target:
