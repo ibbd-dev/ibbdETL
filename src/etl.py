@@ -12,7 +12,7 @@ from src.transform import Transform
 from src.target import Target
 
 
-__version__ = '0.2.0'
+__version__ = '0.5.2'
 
 
 def main(config_file, debug=False):
