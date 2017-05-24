@@ -8,6 +8,11 @@ import csv
 
 
 class Target:
+    """
+    写入csv文件。支持的配置参数如下：
+    filename: csv文件名
+    delimiter: 字段分隔符（默认为,）
+    """
     params = {}
     writer = False
 
