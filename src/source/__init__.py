@@ -39,7 +39,7 @@ class Reader:
                 self._parseNewKeys(keys)
                 self.new_keys_init = True
 
-            # 先做域名的映射
+            # 先做字段名的映射
             if len(self.new_keys_map) > 0:
                 new_row = {}
                 for key in keys:
@@ -74,6 +74,7 @@ class Reader:
             if conf['name'] == 'replace':
                 for key in keys:
                     new_key = key.replace(conf['old'], conf['new'])
+                    new_key = new_key.strip()
                     self.new_keys_list.append(new_key)
                     self.new_keys_map[key] = new_key
         return
