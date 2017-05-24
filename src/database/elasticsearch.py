@@ -3,6 +3,7 @@
 # elasticsearch
 # Author: Alex
 # Created Time: 2017年05月22日 星期一 10时00分04秒
+import json
 from pyelasticsearch import ElasticSearch
 from pyelasticsearch import ElasticHttpNotFoundError
 
@@ -23,7 +24,10 @@ class IbbdElasticSearch:
         indexName: index的名字
         deleteIndex: 是否删除已经存在的index，默认为false，不删除
         settings: index的配置。具体的配置项，请看es的文档。
+        settingsFile: index的配置，json文件。具体的配置项，请看es的文档。
         idField: id字段。有些数据是包含id字段的
+
+        说明：settings和settingsFile最多只能有一项
         """
         self.es = ElasticSearch(config['host'])
 
@@ -42,6 +46,11 @@ class IbbdElasticSearch:
 
         try:
             if 'settings' in config:
+                self.es.create_index(config['indexName'],
+                                     settings=config['settings'])
+            elif 'settingsFile' in config:
+                with open(config['settingsFile'], 'r') as f:
+                    config['settings'] = json.loads(f.read())
                 self.es.create_index(config['indexName'],
                                      settings=config['settings'])
             else:
