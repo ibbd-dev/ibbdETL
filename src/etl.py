@@ -22,12 +22,19 @@ def main(config_file, debug=False):
     with open(config_file) as f:
         config_data = yaml.load(f)
         reader = Reader(config_data['source'])
-        transform = Transform(config_data['transform'])
         target = Target(config_data['target'])
 
+        transform = None
+        if 'transform' in config_data:
+            transform = Transform(config_data['transform'])
+
         for row in reader.next():
-            for row_new in transform.do(row):
-                target.write(row_new)
+            if transform is not None:
+                for row_new in transform.do(row):
+                    target.write(row_new)
+            else:
+                target.write(row)
+
 
 
 @click.command()

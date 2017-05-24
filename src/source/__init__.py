@@ -14,6 +14,11 @@ class Reader:
     source = {}
     match_fields = {}
 
+    # 字段名映射
+    new_keys_list = []
+    new_keys_map = {}
+    new_keys_init = False
+
     def __init__(self, config):
         if 'fields' in config:
             if 'fieldNotMatch' not in config:
@@ -30,6 +35,18 @@ class Reader:
     def next(self):
         for row in self.source.next():
             keys = list(row.keys())
+            if not self.new_keys_init:
+                self._parseNewKeys(keys)
+                self.new_keys_init = True
+
+            # 先做域名的映射
+            if len(self.new_keys_map) > 0:
+                new_row = {}
+                for key in keys:
+                    new_row[self.new_keys_map[key]] = row[key]
+                row = new_row
+                keys = self.new_keys_list
+
             for key in keys:
                 if key in self.match_fields:
                     if 'type' in self.match_fields[key]:
@@ -48,3 +65,15 @@ class Reader:
 
     def _parseType(self, func, val):
         return TypeTransform.__dict__[func].__func__(val)
+
+    def _parseNewKeys(self, keys):
+        if 'fieldsNameMap' not in self.config:
+            return
+
+        for conf in self.config['fieldsNameMap']:
+            if conf['name'] == 'replace':
+                for key in keys:
+                    new_key = key.replace(conf['old'], conf['new'])
+                    self.new_keys_list.append(new_key)
+                    self.new_keys_map[key] = new_key
+        return

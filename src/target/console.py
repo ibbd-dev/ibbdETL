@@ -15,7 +15,10 @@ class Target:
             self.params['delimiter'] = "\t"   # 默认分隔符
 
     def write(self, row):
-        print(self.params['delimiter'].join(row))
+        if type(row) == dict:
+            print(row)
+        else:
+            print(self.params['delimiter'].join(row))
 
     def batch(self, rows):
         for row in rows:
