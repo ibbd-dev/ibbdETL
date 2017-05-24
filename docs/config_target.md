@@ -61,8 +61,9 @@ target:
   batchNum: 1000
   params:
     host: 'http://localhost:9200/'
-    indexName: test_jiangmen_coord
-    deleteIndex: false
+    indexName: merge_mp_20170524
+    mappingsFile: conf/merge_mp.json
+    deleteIndex: true
 ```
 
 1. host: es服务器地址

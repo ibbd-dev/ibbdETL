@@ -118,6 +118,22 @@
 
 #### 2.8 drop
 
+#### 2.9 replace
+
+```
+  - type: modifier
+    name: replace
+    field: 监测日期
+    useRe: true
+    old: "(\\d+)月(\\d+)日"
+    new: "2017-\\1-\\2"
+```
+
+注：
+
+- useRe: 是否使用正则表达式，默认为false
+- old和new可以支持正则匹配，具体有参数useRe决定（默认不使用正则）
+- new_fieldname: 该参数可选，默认与field参数一致
 
 ### 3. 数据扩展：expand
 作用：行
