@@ -1,0 +1,16 @@
+source:
+  type: csv
+  params:
+    filename: data/hello.csv
+    delimiter: ','
+  fieldsNameMap: 
+  - name: replace
+    old: 'a'
+    new: 'b'
+  fields:
+    - name: nbme
+    - name: bge
+    - name: friend
+
+target:
+  type: console
