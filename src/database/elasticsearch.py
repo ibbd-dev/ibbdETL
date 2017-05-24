@@ -38,11 +38,11 @@ class IbbdElasticSearch:
         if 'deleteIndex' in config and config['deleteIndex']:
             try:
                 self.es.delete_index(config['indexName'])
+
+                print('delete index ' + config['indexName'] + ' success!')
             except ElasticHttpNotFoundError:
                 raise Exception('Index ' + config['indexName'] \
                                 + ' not found, nothing to delete')
-
-            print('delete index ' + config['indexName'] + ' success!')
 
         try:
             if 'settings' in config:
@@ -55,10 +55,10 @@ class IbbdElasticSearch:
                                      settings=config['settings'])
             else:
                 self.es.create_index(config['indexName'])
+
+            print('create index ' + config['indexName'] + ' success!')
         except Exception:
             raise Exception("create index " + config['indexName'] + ' error!')
-
-        print('create index ' + config['indexName'] + ' success!')
 
     def read(self):
         pass
