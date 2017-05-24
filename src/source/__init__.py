@@ -10,9 +10,9 @@ from src.utils.typeTransform import TypeTransform
 
 
 class Reader:
-    config = {}
-    source = {}
-    match_fields = {}
+    config = {}       # 配置
+    source = None     # 数据源操作对象
+    match_fields = {}  # 需要处理的字段
 
     # 字段名映射
     new_keys_list = []

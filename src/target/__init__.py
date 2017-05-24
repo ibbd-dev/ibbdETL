@@ -43,12 +43,14 @@ class Target:
     def write(self, row):
         if self.batchWrite:
             self.rows.append(row)
-            if len(self.rows) > self.batchNum:
+            if len(self.rows) >= self.batchNum:
                 rows, self.rows = deepcopy(self.rows), []
                 self.target.batch(rows)
+                print("batchWrite: %d" % len(rows))
         else:
             self.target.write(row)
 
     def __del__(self):
         if len(self.rows) > 0:
             self.target.batch(self.rows)
+            print("batchWrite: %d" % len(self.rows))

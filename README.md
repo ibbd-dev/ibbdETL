@@ -13,6 +13,9 @@ ibbdetl --help
 # 下面是两种使用方式
 ibbdetl -c /path/to/config_file.yml
 ibbdetl --config-file=/path/to/config_file.yml
+
+# 测试时，可以直接指定输出到控制台
+ibbdetl -c /path/to/config_file.yml --console
 ```
 
 ## demo

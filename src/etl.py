@@ -15,14 +15,19 @@ from src.target import Target
 __version__ = '0.5.2'
 
 
-def main(config_file, debug=False):
+def main(config_file, console=False, debug=False):
     """
     数据清洗
     """
     with open(config_file) as f:
         config_data = yaml.load(f)
         reader = Reader(config_data['source'])
-        target = Target(config_data['target'])
+
+        target = None
+        if not console:
+            target = Target(config_data['target'])
+        else:
+            target = Target({'type': 'console'})
 
         transform = None
         if 'transform' in config_data:
@@ -40,10 +45,12 @@ def main(config_file, debug=False):
 @click.command()
 @click.option('-c', '--config-file', required=True,
               help='yml配置文件')
+@click.option('--console/--no-console', default=False,
+              help='指定输出到console，通常用在测试时')
 @click.option('--debug/--no-debug', default=False,
               help='是否为测试状态，默认为否')
 @click.version_option(version=__version__, help='版本信息')
-def cli(config_file, debug):
+def cli(config_file, console, debug):
     """
     基于python3的数据清洗工具。
 
@@ -52,7 +59,7 @@ def cli(config_file, debug):
         ibbdetl --config-file=/path/to/config-file.yml
         ibbdetl -c /path/to/config-file.yml
     """
-    main(config_file, debug=debug)
+    main(config_file, console=console, debug=debug)
 
 
 if __name__ == "__main__":
