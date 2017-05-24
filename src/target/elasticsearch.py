@@ -19,9 +19,12 @@ class Target:
         deleteIndex: 是否删除已经存在的index，默认为false，不删除
         settings: index的配置。具体的配置项，请看es的文档。
         settingsFile: index的配置，json文件。具体的配置项，请看es的文档。
+        mappings: mappings的配置。具体的配置项，请看es的文档。
+        mappingsFile: mappings的配置，json文件。具体的配置项，请看es的文档。
         idField: id字段。有些数据是包含id字段的
 
         说明：settings和settingsFile最多只能有一项
+        mappings和mappingsFile最多也只能有一项
         """
         self.es = IbbdElasticSearch(params)
         self.params = params

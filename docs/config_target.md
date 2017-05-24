@@ -68,6 +68,14 @@ target:
 1. host: es服务器地址
 2. indexName: 需要写入的index name
 3. deleteIndex: 如果index name已经存在，是否删除旧的index
-4. settings: index配置，可以在这里设置index mapping
-5. idField: 可以指定记录的id字段（如果有的话）
+4. settings: index的配置。具体的配置项，请看es的文档。
+5. settingsFile: index的配置，json文件。具体的配置项，请看es的文档。
+6. mappings: mappings的配置。具体的配置项，请看es的文档。
+7. mappingsFile: mappings的配置，json文件。具体的配置项，请看es的文档。
+8. idField: id字段。有些数据是包含id字段的
+
+说明：
+
+- settings和settingsFile最多只能有一项
+- mappings和mappingsFile最多也只能有一项
 
