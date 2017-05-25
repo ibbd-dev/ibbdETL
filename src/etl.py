@@ -41,25 +41,24 @@ def main(config_file, console=False, debug=False):
                 target.write(row)
 
 
-
 @click.command()
-@click.option('-c', '--config-file', required=True,
-              help='yml配置文件')
-@click.option('--console/--no-console', default=False,
+@click.option('--console', is_flag=True,
               help='指定输出到console，通常用在测试时')
 @click.option('--debug/--no-debug', default=False,
               help='是否为测试状态，默认为否')
+@click.argument('filename', type=click.Path(exists=True))
 @click.version_option(version=__version__, help='版本信息')
-def cli(config_file, console, debug):
+def cli(filename, console, debug):
     """
     基于python3的数据清洗工具。
 
     \b
-    使用方式:
-        ibbdetl --config-file=/path/to/config-file.yml
-        ibbdetl -c /path/to/config-file.yml
+    基础使用方式:
+        ibbdetl /path/to/config-file.yml
+    直接将结果输出到控制台（通常测试时使用）:
+        ibbdetl /path/to/config-file.yml --console
     """
-    main(config_file, console=console, debug=debug)
+    main(filename, console=console, debug=debug)
 
 
 if __name__ == "__main__":

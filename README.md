@@ -10,12 +10,11 @@ python3 setup.py install
 # 帮助
 ibbdetl --help
 
-# 下面是两种使用方式
-ibbdetl -c /path/to/config_file.yml
-ibbdetl --config-file=/path/to/config_file.yml
+# 使用方式
+ibbdetl /path/to/config_file.yml
 
 # 测试时，可以直接指定输出到控制台
-ibbdetl -c /path/to/config_file.yml --console
+ibbdetl /path/to/config_file.yml --console
 ```
 
 ## demo
@@ -24,7 +23,7 @@ ibbdetl -c /path/to/config_file.yml --console
 ## 开发过程使用
 
 ```sh
-python3 src/etl.py --config-file=conf/hello.yml
+python3 src/etl.py conf/hello.yml
 ```
 
 ## 文档
