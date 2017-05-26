@@ -20,6 +20,7 @@
 - `fieldNotMatch`: 字段在`fields`中如果没有被匹配，则执行什么操作，默认是`drop`（即丢弃），也可以修改为`keep`
 - `fields`: 数据输入字段的规范化，例如数据类型转换等。该字段定义只需要定义有用的字段，其他的没有定义的字段将会被过滤掉。下层属性有：
   - [x] `name`: 字段名称
+  - [x] `fieldMatch`: 使用正则来匹配字段。这样就可以批量处理字段。
   - [x] `defaultValue`: 默认值（当字段值为空字符串时，允许指定默认值）
   - [x] `trim`: 是否去掉字符串前后的空格（默认值false不做处理），取值true or false
   - `type`: 字段的数据类型，允许为空，默认为`string`，支持如下格式：
@@ -42,6 +43,15 @@ source:
     type: float
   - name: lat
     type: float
+```
+
+批量修改字段：（使用正则表达式）
+
+```
+  fields:
+  - fieldMatch: '^av_.*'
+    type: float
+    defaultValue: 0
 ```
 
 ### 1.2 CSV文件格式: csv
