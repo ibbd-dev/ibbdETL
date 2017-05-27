@@ -16,6 +16,8 @@ class IbbdElasticSearch:
     es = None
     config = {}
 
+    mapping_is_set = False  # 判断是否已经设置了es的mapping
+
     def __init__(self, config):
         """
         es初始化
@@ -63,18 +65,23 @@ class IbbdElasticSearch:
         except Exception:
             raise Exception("create index " + config['indexName'] + ' error!')
 
+    def _putMapping(self, row):
+        """
+        设置es的mapping。
+        可以根据row生成默认配置, 生成配置规则如下：
+        """
         try:
-            if 'mappingsFile' in config:
-                with open(config['mappingsFile'], 'r') as f:
-                    config['mappings'] = json.loads(f.read())
+            if 'mappingsFile' in self.config:
+                with open(self.config['mappingsFile'], 'r') as f:
+                    self.config['mappings'] = json.loads(f.read())
 
-            if 'mappings' in config:
-                self.es.put_mapping(config['indexName'],
-                                    config['docType'],
-                                    config['mappings'])
-            print("put mapping" + config['indexName'] + ' success!')
+            if 'mappings' in self.config:
+                self.es.put_mapping(self.config['indexName'],
+                                    self.config['docType'],
+                                    self.config['mappings'])
+            print("put mapping" + self.config['indexName'] + ' success!')
         except Exception:
-            raise Exception("put mapping" + config['indexName'] + ' error!')
+            raise Exception("put mapping " + self.config['indexName'] + ' error!')
 
     def read(self):
         pass
@@ -92,6 +99,10 @@ class IbbdElasticSearch:
         """
         写入多行记录
         """
+        if not self.mapping_is_set:   # 设置mapping
+            self.mapping_is_set = True
+            self._putMapping(rows[0])
+
         docs = ()
         if 'idField' in self.config:
             docs = (self.es.index_op(doc, id=doc.pop(self.config['idField'])) \
