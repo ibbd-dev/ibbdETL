@@ -12,7 +12,7 @@ from src.transform import Transform
 from src.target import Target
 
 
-__version__ = '0.5.2'
+__version__ = '0.6.0'
 
 
 def main(config_file, console=False, debug=False):
@@ -29,16 +29,25 @@ def main(config_file, console=False, debug=False):
         else:
             target = Target({'type': 'console'})
 
+        rowsLimit = None  # 从源数据中读取的行数
+        if 'rowsLimit' in config_data['target']:
+            rowsLimit = config_data['target']['rowsLimit']
+
         transform = None
         if 'transform' in config_data:
             transform = Transform(config_data['transform'])
 
+        count = 0
         for row in reader.next():
+            count += 1
             if transform is not None:
                 for row_new in transform.do(row):
                     target.write(row_new)
             else:
                 target.write(row)
+
+                if rowsLimit is not None and count >= rowsLimit:
+                    break
 
 
 @click.command()

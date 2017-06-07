@@ -4,6 +4,7 @@
 - [x] console: 控制台
 - [x] csv: CSV格式
 - [x] es: ElasticSearch
+- [x] esMapping: 导出成es的mapping配置文件（json格式）
 - [ ] mysql: Mysql数据库
 - [ ] mongodb: MongoDB数据库
 - [ ] json: 输出json的数据格式，需要先映射为宽表
@@ -79,4 +80,25 @@ target:
 
 - settings和settingsFile最多只能有一项
 - mappings和mappingsFile最多也只能有一项
+
+### 2.5 将数据格式化成es mapping的格式：esMapping
+下面的配置是根据一个csv文件生成es mapping的json配置文件：
+
+```
+source:
+  type: csv
+  fieldNotMatch: keep
+  params:
+    filename: data/indexs_monitor_utf8.csv
+    delimiter: ','
+
+target:
+  type: esMapping
+  rowsLimit: 1
+  params:
+    filename: conf/indexs_monitor_es_mapping.json
+```
+
+注意：
+- rowsLimit: 该参数表示只要第一行数据即可。
 
