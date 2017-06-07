@@ -100,5 +100,31 @@ target:
 ```
 
 注意：
+
 - rowsLimit: 该参数表示只要第一行数据即可。
+- 字符串字段默认不进行分词
+
+前面只是根据第一行来推断字段的类型，但是这样可能会造成比较到的误差，例如当字段值为字符串的0时，这个时候可能是整型，也可能是浮点型，这种情况是经常存在的。根据多行来判断会靠谱一点，而且有些特殊的类型可以指定，如下：
+
+```
+source:
+  type: csv
+  fieldNotMatch: keep
+  params:
+    filename: data/indexs_monitor_utf8.csv
+    delimiter: ','
+
+target:
+  type: esMapping
+  rowsLimit: 1000
+  params:
+    filename: conf/indexs_monitor_es_mapping2.json
+    fields:
+    - name: 监测日期
+      config:
+        type: date
+        format: "yyyy/MM/dd"
+```
+
+根据前1000来判断，并且指定了`监测日期`这个字段的配置。
 

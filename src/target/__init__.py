@@ -28,6 +28,8 @@ class Target:
     # 缓存数据，批量写入时需要使用
     rows = []
 
+    total = 0   # 总记录数
+
     def __init__(self, config):
         self.config = config
         if 'batch' in config and config['batch']:  # 批量写入
@@ -46,11 +48,18 @@ class Target:
             if len(self.rows) >= self.batchNum:
                 rows, self.rows = deepcopy(self.rows), []
                 self.target.batch(rows)
-                print("batchWrite: %d" % len(rows))
+                count = len(rows)
+                self.total += count
+                print("batchWrite: %d, Total: %d" % (count, self.total))
         else:
             self.target.write(row)
+
+    def finish(self):
+        self.target.finish()
 
     def __del__(self):
         if len(self.rows) > 0:
             self.target.batch(self.rows)
-            print("batchWrite: %d" % len(self.rows))
+            count = len(self.rows)
+            self.total += count
+            print("batchWrite: %d, Total: %d" % (count, self.total))

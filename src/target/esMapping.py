@@ -11,8 +11,31 @@ class Target:
     """
     写入es的mapping配置文件。支持参数：
     filename: 文件名
+    fields: 特殊字段配置
+    - name: 检测日期
+      config: 字段配置
+      - type: date
+        format: "yyyy/MM/dd"
     """
     params = {}
+    fieldsMap = {}
+
+    # 不同数据类型的配置
+    type_config = {
+        'integer': {
+            'type': 'integer',
+        },
+        'float': {
+            'type': 'float'
+        },
+        'string': {
+            'type': 'string',
+            'index': 'not_analyzed'
+        }
+    }
+
+    is_first = True  # 标注是否为第一行
+    mapping = {}   # es mapping的结构
 
     def __init__(self, params):
         """
@@ -20,35 +43,53 @@ class Target:
         打开文件操作符等
         """
         self.params = params
+        if 'fields' in params:
+            for field in params['fields']:
+                self.fieldsMap[field['name']] = field['config']
 
     def write(self, row):
         """
         写入单行数据
         """
-        data = {}
         for k in row:
             v = row[k]
-            if type(v) == str:
-                data[k] = self.parseStr(v)
+            if k in self.fieldsMap:
+                self.mapping[k] = self.fieldsMap[k]
+            elif type(v) == str:
+                new_type = self.parseStr(v)
+                if self.is_first:
+                    self.mapping[k] = new_type
+                else:
+                    self.mapping[k] = self.merge(self.mapping[k], new_type)
+
             else:
                 raise Exception("出现了暂时还不支持的数据类型")
 
+        self.is_first = False
+
+    def finish(self):
         with open(self.params['filename'], 'w') as f:
-            json.dump({"properties": data}, f, indent=4, ensure_ascii=False)
+            json.dump({"properties": self.mapping}, f,
+                      indent=4, ensure_ascii=False, sort_keys=True)
+
+    def merge(self, old_type, new_type):
+        """合并类型"""
+        if old_type['type'] == 'string':
+            return old_type
+        elif new_type['type'] == 'string':
+            return new_type
+        elif new_type['type'] == 'float' and old_type['type'] == 'integer':
+            return new_type
+
+        return old_type
 
     def parseStr(self, val):
         if re.sub("^\d+$", "", val) == "":
-            return {
-                'type': 'integer'
-            }
+            return self.type_config['integer']
         elif re.sub("^\d+\.\d+$", "", val) == "":
-            return {
-                'type': 'float'
-            }
-        return {
-            'type': 'string',
-            'index': 'not_analyzed'
-        }
+            return self.type_config['float']
+
+        return self.type_config['string']
 
     def batch(self, rows):
         """

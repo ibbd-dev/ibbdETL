@@ -47,6 +47,7 @@ def main(config_file, console=False, debug=False):
                 target.write(row)
 
                 if rowsLimit is not None and count >= rowsLimit:
+                    target.finish()   # 通知已经完成了
                     break
 
 
