@@ -38,6 +38,7 @@ def main(config_file, console=False, debug=False):
             transform = Transform(config_data['transform'])
 
         count = 0
+        finish_run = False
         for row in reader.next():
             count += 1
             if transform is not None:
@@ -47,8 +48,12 @@ def main(config_file, console=False, debug=False):
                 target.write(row)
 
                 if rowsLimit is not None and count >= rowsLimit:
+                    finish_run = True
                     target.finish()   # 通知已经完成了
                     break
+
+        if not finish_run and rowsLimit is not None:
+            target.finish()   # 至少应该被运行一次
 
 
 @click.command()
