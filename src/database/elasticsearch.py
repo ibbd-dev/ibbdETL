@@ -45,9 +45,11 @@ class IbbdElasticSearch:
                 self.es.delete_index(config['indexName'])
 
                 print('delete index ' + config['indexName'] + ' success!')
-            except ElasticHttpNotFoundError:
-                raise Exception('Index ' + config['indexName'] \
-                                + ' not found, nothing to delete')
+            except ElasticHttpNotFoundError:  # 如果本来不存在，则输出提示就好
+                print('Index ' + config['indexName'] \
+                                + ' not found, nothing to delete!')
+            except:
+                raise Exception('Index ' + config['indexName'] + ' delete error!')
 
         try:
             if 'settings' in config:
@@ -79,7 +81,7 @@ class IbbdElasticSearch:
                 self.es.put_mapping(self.config['indexName'],
                                     self.config['docType'],
                                     self.config['mappings'])
-            print("put mapping" + self.config['indexName'] + ' success!')
+            print("put mapping " + self.config['indexName'] + ' success!')
         except Exception:
             raise Exception("put mapping " + self.config['indexName'] + ' error!')
 
