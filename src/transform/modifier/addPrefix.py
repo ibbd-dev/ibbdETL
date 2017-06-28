@@ -10,7 +10,7 @@ class Transform:
     给某个字段增加前缀
     - type: modifier
       name: addPrefix
-      field: name_hash
+      field: fieldname
       prefix: 'u.'
     """
     config = {}
