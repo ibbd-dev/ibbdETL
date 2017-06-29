@@ -167,6 +167,11 @@
       toField: friend_hash
       relationship: friend
       isTwoWay: true
+      weights:
+      - name: start_year
+        field: start_year
+      - name: last_date
+        field: last_date
 ```
 
 ### 4. 自定义处理：user
