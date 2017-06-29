@@ -69,7 +69,7 @@ transform:
       toField: thirdsupplier_hash
       relationship: compete
       isTwoWay: true
-      weights:
+      facets:
       - name: since
         field: start_year
       - name: last_date
@@ -86,7 +86,7 @@ transform:
 - `isAttr`: 定义是否为属性（to实体）
 - `relationship`: 关系
 - `isTwoWay`: 该关系是否为双向的（双向的关系有两条记录）
-- `weights`: 定义关系的属性，例如“<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .”关系中的since和first就是属性。例如朋友关系，我们就可以把朋友什么时候认识的，关系的程度等作为属性。每个属性有两个字段：
+- `facets`: 定义关系的属性，例如“<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .”关系中的since和first就是属性。例如朋友关系，我们就可以把朋友什么时候认识的，关系的程度等作为属性。每个属性有两个字段：
   - name：属性名，如since
   - field：属性值对应的字段，如start_year的意思就是将该字段的值作为关系属性since的值。
 

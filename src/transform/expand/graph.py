@@ -27,7 +27,7 @@ class Transform:
         toField: friend
         relationship: friend
         isTwoWay: true
-        weights:
+        facets:
         - name: start_year
           field: start_year
         - name: last_date
@@ -74,10 +74,10 @@ class Transform:
                 else:
                     res['to'] = u"<%s>" % res['to']
 
-                # 定义边的权重，格式如：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .
-                res['weights'] = ''
-                if 'weights' in relation:
-                    res['weights'] = self._parseWeights(row, relation['weights'])
+                # 定义边的属性，格式如：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .
+                res['facets'] = ''
+                if 'facets' in relation:
+                    res['facets'] = self._parseWeights(row, relation['facets'])
 
                 for i in self._output(res, relation):
                     data.append([i])
@@ -86,15 +86,15 @@ class Transform:
 
     def _output(self, res, relation):
         """格式化输出：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) ."""
-        if res['weights']:   # 有权重时的输出
+        if res['facets']:   # 有属性时的输出
             yield "%s\t%s\t%s\t%s\t." % \
-                        (res['from'], res['relationship'], res['to'], res['weights'])
+                        (res['from'], res['relationship'], res['to'], res['facets'])
             if 'isTwoWay' in relation and relation['isTwoWay']:
                 # 是否为双向关系
                 yield "%s\t%s\t%s\t%s\t." % \
-                            (res['to'], res['relationship'], res['from'], res['weights'])
+                            (res['to'], res['relationship'], res['from'], res['facets'])
 
-        else:  # 没有权重时的输出
+        else:  # 没有属性时的输出
             yield "%s\t%s\t%s\t." % \
                         (res['from'], res['relationship'], res['to'])
             if 'isTwoWay' in relation and relation['isTwoWay']:
@@ -118,12 +118,12 @@ class Transform:
             return '^^<geo:geojson>'
         return '^^<xs:%s>' % to_type
 
-    def _parseWeights(self, row, weights):
-        """解释边的权重: (since=2006-02-02T13:01:09, first=true) 
+    def _parseWeights(self, row, facets):
+        """解释边的属性: (since=2006-02-02T13:01:09, first=true) 
         注：相应的字段有值时，才会有相应的权重
         """
-        weights_str = ["%s=%s" % (w['name'], str(row[w['field']]))
-                       for w in weights if row[w['field']]]
-        if len(weights_str) > 0:
-            return "(%s)" % ', '.join(weights_str)
+        facets_str = ["%s=%s" % (f['name'], str(row[f['field']]))
+                       for f in facets if row[f['field']]]
+        if len(facets_str) > 0:
+            return "(%s)" % ', '.join(facets_str)
         return ""

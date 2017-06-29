@@ -167,7 +167,7 @@
       toField: friend_hash
       relationship: friend
       isTwoWay: true
-      weights:
+      facets:
       - name: start_year
         field: start_year
       - name: last_date
