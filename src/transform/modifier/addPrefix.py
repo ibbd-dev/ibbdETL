@@ -11,18 +11,23 @@ class Transform:
     - type: modifier
       name: addPrefix
       field: fieldname
+      newField: new_fieldname
       prefix: 'u.'
     """
     config = {}
 
     def __init__(self, config):
+        if 'newField' not in config:
+            config['newField'] = config['field']
+
         self.config = config
 
     def do(self, rows):
         config = self.config
         for row in rows:
             if len(row[config['field']]) > 0:
-                row[config['field']] = config['prefix'] + row[config['field']]
+                row[config['newField']] = config['prefix'] + row[config['field']]
             else:
-                row[config['field']] = ''
+                row[config['newField']] = ''
+
         return rows

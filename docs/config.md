@@ -61,11 +61,12 @@
 ```
   - type: modifier
     name: addPrefix
-    field: name_hash
+    field: name
+    newField: name_id
     prefix: 'u.'
 ```
 
-给name_hash字段的值加上前缀`u.`
+给name字段的值加上前缀`u.`，并将结果保存到新字段name_id中（新字段名如果不定义，则覆盖原来的值）
 
 #### 2.3 coordTransform
 
