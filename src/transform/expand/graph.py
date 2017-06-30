@@ -48,7 +48,6 @@ class Transform:
             for relation in config['relationships']:
                 res = {
                     'from': row[relation['fromField']].strip(),
-                    'relationship': relation['relationship'],
                 }
 
                 # to的值允许直接指定，例如类型
@@ -64,8 +63,15 @@ class Transform:
                     continue
 
                 res['from'] = u"<%s>" % res['from']
-                res['relationship'] = u"<%s>" % res['relationship']
                 res['to'] = self._parseToNode(res['to'], relation)
+
+                if 'relationship' in relation:
+                    res['relationship'] = u"<%s>" % relation['relationship']
+                elif 'relationshipField' in relation and \
+                        row[relation['relationshipField']]:
+                    res['relationship'] = u"<%s>" % row[relation['relationshipField']]
+                else:
+                    raise Exception("relationship not exist!")
 
                 # 定义边的属性，格式如：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .
                 res['facets'] = ''
@@ -134,7 +140,7 @@ class Transform:
         """解释边的属性: (since=2006-02-02T13:01:09, first=true) 
         注：相应的字段有值时，才会有相应的权重
         """
-        facets_str = ["%s=%s" % (f['name'], str(row[f['field']]))
+        facets_str = ['%s="%s"' % (f['name'], str(row[f['field']]))
                        for f in facets if row[f['field']]]
         if len(facets_str) > 0:
             return "(%s)" % ', '.join(facets_str)
