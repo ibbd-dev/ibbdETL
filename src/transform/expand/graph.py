@@ -65,19 +65,12 @@ class Transform:
 
                 res['from'] = u"<%s>" % res['from']
                 res['relationship'] = u"<%s>" % res['relationship']
-                if 'isAttr' in relation and relation['isAttr']:
-                    if 'toType' in relation:
-                        res['to'] = u"\"%s\"%s" % (res['to'], self._parseType(relation['toType']))
-                    else:
-                        res['to'] = u"\"%s\"" % res['to']
-
-                else:
-                    res['to'] = u"<%s>" % res['to']
+                res['to'] = self._parseToNode(res['to'], relation)
 
                 # 定义边的属性，格式如：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .
                 res['facets'] = ''
                 if 'facets' in relation:
-                    res['facets'] = self._parseWeights(row, relation['facets'])
+                    res['facets'] = self._parseFacets(row, relation['facets'])
 
                 for i in self._output(res, relation):
                     data.append([i])
@@ -102,9 +95,9 @@ class Transform:
                 yield "%s\t%s\t%s\t." % \
                             (res['to'], res['relationship'], res['from'])
 
-    def _parseType(self, to_type):
+    def _parseToNodeVal(self, to_val, to_type):
         """
-        to_type: to字段的类型，支持如下值:
+        TODO: to_type: to字段的类型，支持如下值:
             string
             int
             float
@@ -115,10 +108,29 @@ class Transform:
             geojson
         """
         if to_type == 'geojson':
-            return '^^<geo:geojson>'
-        return '^^<xs:%s>' % to_type
+            return '"%s"^^<geo:geojson>' % to_val
+        elif to_type == 'int':
+            to_val = str(int(to_val))
+        elif to_type == 'float' or to_type == 'double':
+            to_val = str(float(to_val))
 
-    def _parseWeights(self, row, facets):
+        return '"%s"^^<xs:%s>' % (to_val, to_type)
+
+    def _parseToNode(self, to_val, relation):
+        """解释to node"""
+        to_str = ""
+        if 'isAttr' in relation and relation['isAttr']:
+            if 'toType' in relation:
+                to_str = self._parseToNodeVal(to_val, relation['toType'])
+            else:
+                to_str = u"\"%s\"" % to_val
+
+        else:
+            to_str = u"<%s>" % to_val
+
+        return to_str
+
+    def _parseFacets(self, row, facets):
         """解释边的属性: (since=2006-02-02T13:01:09, first=true) 
         注：相应的字段有值时，才会有相应的权重
         """
