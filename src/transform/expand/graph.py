@@ -13,6 +13,7 @@ class Transform:
       - fromField: name
         toField: name
         isAttr: true
+        lang: short_name
         relationship: name
       - fromField: name
         toField: age
@@ -39,6 +40,17 @@ class Transform:
     toTypes = ['string', 'int', 'float', 'double', 'boolean', 'date', 'dateTime', 'geojson']
 
     def __init__(self, config):
+        for r in config['relationships']:
+            if not('toField' in r or 'toValue' in r):
+                raise Exception("to value not exist!")
+            if not('relationship' in r or 'relationshipField' in r):
+                raise Exception("relationship not exist!")
+            if 'isAttr' not in r:
+                r['isAttr'] = False
+
+            if 'isTwoWay' not in r:
+                r['isTwoWay'] = False
+
         self.config = config
 
     def do(self, rows):
@@ -53,10 +65,8 @@ class Transform:
                 # to的值允许直接指定，例如类型
                 if 'toField' in relation:
                     res['to'] = row[relation['toField']]
-                elif 'toValue' in relation:
-                    res['to'] = relation['toValue']
                 else:
-                    raise Exception("to value not exist!")
+                    res['to'] = relation['toValue']
 
                 if len(res['from']) == 0 or len(res['to']) == 0:
                     # 过滤掉空的数据
@@ -65,13 +75,11 @@ class Transform:
                 res['from'] = u"<%s>" % res['from']
                 res['to'] = self._parseToNode(res['to'], relation)
 
+                # 定义关系
                 if 'relationship' in relation:
                     res['relationship'] = u"<%s>" % relation['relationship']
-                elif 'relationshipField' in relation and \
-                        row[relation['relationshipField']]:
-                    res['relationship'] = u"<%s>" % row[relation['relationshipField']]
                 else:
-                    raise Exception("relationship not exist!")
+                    res['relationship'] = u"<%s>" % row[relation['relationshipField']]
 
                 # 定义边的属性，格式如：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) .
                 res['facets'] = ''
@@ -87,19 +95,19 @@ class Transform:
         """格式化输出：<alice> <car> "MA0123" (since=2006-02-02T13:01:09, first=true) ."""
         if res['facets']:   # 有属性时的输出
             yield "%s\t%s\t%s\t%s\t." % \
-                        (res['from'], res['relationship'], res['to'], res['facets'])
-            if 'isTwoWay' in relation and relation['isTwoWay']:
+                (res['from'], res['relationship'], res['to'], res['facets'])
+            if relation['isTwoWay']:
                 # 是否为双向关系
                 yield "%s\t%s\t%s\t%s\t." % \
-                            (res['to'], res['relationship'], res['from'], res['facets'])
+                    (res['to'], res['relationship'], res['from'], res['facets'])
 
         else:  # 没有属性时的输出
             yield "%s\t%s\t%s\t." % \
-                        (res['from'], res['relationship'], res['to'])
+                (res['from'], res['relationship'], res['to'])
             if 'isTwoWay' in relation and relation['isTwoWay']:
                 # 是否为双向关系
                 yield "%s\t%s\t%s\t." % \
-                            (res['to'], res['relationship'], res['from'])
+                    (res['to'], res['relationship'], res['from'])
 
     def _parseToNodeVal(self, to_val, to_type):
         """
@@ -125,14 +133,17 @@ class Transform:
     def _parseToNode(self, to_val, relation):
         """解释to node"""
         to_str = ""
-        if 'isAttr' in relation and relation['isAttr']:
-            if 'toType' in relation:
+        if relation['isAttr']:
+            if 'toType' in relation and relation['toType'] != 'string':
+                # 定义类型
                 to_str = self._parseToNodeVal(to_val, relation['toType'])
+            elif 'lang' in relation:   # string类型可以定义语言
+                to_str = '"%s"@%s' % (to_val, relation['lang'])
             else:
-                to_str = u"\"%s\"" % to_val
+                to_str = '"%s"' % to_val
 
         else:
-            to_str = u"<%s>" % to_val
+            to_str = '<%s>' % to_val
 
         return to_str
 
@@ -141,7 +152,8 @@ class Transform:
         注：相应的字段有值时，才会有相应的权重
         """
         facets_str = ['%s="%s"' % (f['name'], str(row[f['field']]))
-                       for f in facets if row[f['field']]]
+                      for f in facets if row[f['field']]]
         if len(facets_str) > 0:
             return "(%s)" % ', '.join(facets_str)
+
         return ""
