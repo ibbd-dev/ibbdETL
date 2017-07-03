@@ -20,13 +20,22 @@
 ### 1. 数据过滤: filter
 作用：行
 
-对于满足某些条件的记录应该放弃掉，例如关键字段为空的时候，等等。实现如下：
+对于满足某些条件的记录应该放弃掉，例如关键字段为空的时候，等等。实现condition如下：
 
-- [ ] `emptyDrop`: 某字段为空，则删除
-- [ ] `compareDrop`: 某字段的值和某个值进行比较，若满足某条件则删除
-- [ ] `lenDrop`: 字符串长度满足某条件的，删除
-- [ ] `regularDrop`: 满足或者不满足某正则表达式的，删除
+- [ ] `empty`: 某字段为空，则删除
+- [ ] `len`: 字符串长度满足某条件的，删除
+- [ ] `match`: 满足或者不满足某正则表达式的，删除
+- [ ] `eq`: 等于某个值
+- [ ] `ne`: 不等于某个值
+- [ ] `gt`: 大于某个值
+- [ ] `gte`: 大于或者等于某个值
+- [ ] `lt`: 小于某个值
+- [ ] `lte`: 小于或者等于某个值
+- [ ] `in`: 在一个列表里
+- [ ] `nin`: 不在一个列表里
 - [ ] `example`: 
+
+condition都有一个共同的参数：not，该值默认为false，当为true时，则表示对条件的值取反。
 
 ### 2. 字段修改：modifier
 作用：字段
@@ -42,6 +51,7 @@
 - [x] `mapping`: 映射，将值映射为相应的值，特别适用于类别变量。
 - [ ] `drop`: 删除某些字段
 - [x] `replace`: 替换
+- [ ] `if`: 可以对字段做if-else分支运算
 - [ ] `example`: 
 
 #### 2.1 hash
@@ -125,6 +135,7 @@
   - type: modifier
     name: replace
     field: 监测日期
+    newField: new_fieldname
     useRe: true
     old: "(\\d+)月(\\d+)日"
     new: "2017-\\1-\\2"
@@ -134,7 +145,7 @@
 
 - useRe: 是否使用正则表达式，默认为false
 - old和new可以支持正则匹配，具体有参数useRe决定（默认不使用正则）
-- new_fieldname: 该参数可选，默认与field参数一致
+- newField: 该参数可选，默认与field参数一致
 
 ### 3. 数据扩展：expand
 作用：行
@@ -146,34 +157,7 @@
 - [ ] `example`: 
 
 #### 3.1 graph
-
-```
-  - type: expand
-    name: graph
-    relationships:
-    - fromField: name_hash
-      toField: name
-      isAttr: true
-      relationship: name
-    - fromField: name_hash
-      toField: age
-      toType: Int
-      isAttr: true
-      relationship: age
-    - fromField: friend_hash
-      toField: friend
-      isAttr: true
-      relationship: name
-    - fromField: name_hash
-      toField: friend_hash
-      relationship: friend
-      isTwoWay: true
-      facets:
-      - name: start_year
-        field: start_year
-      - name: last_date
-        field: last_date
-```
+见文档`./table2graph.md`
 
 ### 4. 自定义处理：user
 有些数据处理过程没有涵盖在标准化的过程里，需要用程序进行处理
