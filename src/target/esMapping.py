@@ -6,6 +6,10 @@
 import re
 import json
 
+# 正则
+int_re = re.compile('^\d+$')
+float_re = re.compile('^\d+\.\d+$')
+
 
 class Target:
     """
@@ -84,9 +88,9 @@ class Target:
         return old_type
 
     def parseStr(self, val):
-        if re.sub("^\d+$", "", val) == "":
+        if int_re.sub("", val) == "":
             return self.type_config['integer']
-        elif re.sub("^\d+\.\d+$", "", val) == "":
+        elif float_re.sub("", val) == "":
             return self.type_config['float']
 
         return self.type_config['string']
