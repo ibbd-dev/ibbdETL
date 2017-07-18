@@ -19,7 +19,7 @@ def main(config_file, console=False, debug=False):
     """
     数据清洗
     """
-    with open(config_file) as f:
+    with open(config_file, encoding='utf-8') as f:
         config_data = yaml.load(f)
         reader = Reader(config_data['source'])
 
