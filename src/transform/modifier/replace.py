@@ -26,7 +26,7 @@ class Transform:
             config['useRe'] = False
 
         if config['useRe']:
-            config['old'] = re.compile(config['config'])
+            config['old'] = re.compile(config['old'])
 
         if 'newField' not in config:
             config['newField'] = config['field']
@@ -44,7 +44,8 @@ class Transform:
         return rows
 
     def _re_replace(self, val):
-        return re.config['old'].sub(self.config['new'], val)
+        val = str(val)
+        return re.sub(self.config['old'], self.config['new'], val)
 
     def _replace(self, val):
         return val.replace(self.config['old'],
