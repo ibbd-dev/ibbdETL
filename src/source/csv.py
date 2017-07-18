@@ -6,19 +6,21 @@
 
 import os
 import csv
-
+import codecs
 
 class Source:
     params = {}
     reader = None
 
     def __init__(self, params):
+        if 'encoding' not in params:
+            params['encoding'] = 'utf-8'
         self.params = params
 
         if not os.path.isfile(params['filename']):
             raise Exception('%s 文件不存在' % params['filename'])
 
-        self.csvfile = open(params['filename'], 'r')
+        self.csvfile = open(params['filename'], 'r', encoding=params['encoding'])
         if 'delimiter' not in params:
             params['delimiter'] = ','
 
