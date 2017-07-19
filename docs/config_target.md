@@ -128,3 +128,32 @@ target:
 
 根据前1000来判断，并且指定了`监测日期`这个字段的配置。
 
+
+### 2.6 将数据导出到MySQL：mysql
+
+将数据写入 MySQL 数据库,需要预先创建表,字段应与输出的字段一致
+
+```
+target:
+  type: mysql
+  params:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    passwd: root
+    db: test
+    charset: utf8
+    table: testmysql
+    batch: true
+    batchNum: 1000
+```
+
+- `host:` MySQL 主机地址
+- `port:` MySQL 端口(可选参数,默认3306)
+- `user:` 用户名
+- `passwd:` 密码
+- `db:` 数据库
+- `table:` 表名
+- `charset:` 字符集(可选参数,默认设置成UTF8)
+- `batch`: 是否开启批量写入,默认 false
+- `batchNum`: 一次写入 batchNum 条数据, batch 参数需要配置成 true 才可用

@@ -8,7 +8,7 @@
 - [ ] mongodb: MongoDB数据库
 - [ ] json: 输入json的数据格式，需要先映射为宽表
 - [ ] jsonAPI：从http的api接口读取数据，以json的格式。
-- [ ] 
+- [ ]
 
 ### 1.1 通用参数说明
 外层的参数有：
@@ -72,4 +72,35 @@ source:
 注：现在csv数据源尚未支持定义表头。
 
 
+### 1.3 MySQL数据库配置: mysql
+从 MySQL 数据库读取数据: 参数只说明`params`部分，如：
+
+```
+source:
+  type: mysql
+  params:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    passwd: root
+    db: test
+    charset: utf8
+    table: testmysql
+    batchNum: 1000
+    fields:
+      - id
+      - name
+      - email
+      - age
+```
+
+- `host`: MySQL 主机地址
+- `port`: MySQL 端口(可选参数,默认3306)
+- `user`: 用户名
+- `passwd`: 密码
+- `db`: 数据库
+- `table`: 表名
+- `charset`: 字符集(可选参数,默认设置成UTF8)
+- `batchNum`: 批量从数据库读取数据,默认每1000条来读取
+- `fields`: 需要读取的列名,默认SELECT * FROM table
 
