@@ -6,8 +6,8 @@
 - [ ] es: ElasticSearch
 - [ ] mysql: Mysql数据库
 - [ ] mongodb: MongoDB数据库
-- [ ] json: 输入json的数据格式，需要先映射为宽表
-- [ ] jsonAPI：从http的api接口读取数据，以json的格式。
+- [x] json: 输入json的数据格式，需要先映射为宽表
+- [x] jsonAPI：从http的api接口读取数据，以json的格式。
 - [ ]
 
 ### 1.1 通用参数说明
@@ -104,3 +104,35 @@ source:
 - `batchNum`: 批量从数据库读取数据,默认每1000条来读取
 - `fields`: 需要读取的列名,默认SELECT * FROM table
 
+
+### 1.4 json 配置: json
+从 json 读取数据,如:
+
+```
+source:
+  type: json
+  params:
+    filename: test.json
+    encoding: utf8
+    root: weatherinfo.recent
+    fields:
+    - name: day_field
+      path: day
+    - name: temp_field
+      path: temp
+
+  fields:
+  - name: day_field
+  - name: temp_field
+```
+
+- `filename`: 若从文件中读取 json 数据,则配置成 json 文件路径
+- `url`: 若从 URL 获取 json 数据,则配置成如 http://www.xxx.com/api
+
+- 注意: filename 和 url 参数只能选取其中一个进行配置
+
+- `encoding`: 文件/网页的编码方式,如 utf8 gbk 等
+- `root`: 目标数据支持迭代的 json 根节点,假若目标数据在 json 的一个列表里,如json['weatherinfo']['recent'],此时应设置成 weatherinfo.recent
+- `fields`: 目标字段
+- `- name`: 字段名
+- `  path`: 该字段的路径
