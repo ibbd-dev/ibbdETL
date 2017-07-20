@@ -157,3 +157,19 @@ target:
 - `charset:` 字符集(可选参数,默认设置成UTF8)
 - `batch`: 是否开启批量写入,默认 false
 - `batchNum`: 一次写入 batchNum 条数据, batch 参数需要配置成 true 才可用
+
+### 2.7 将数据导出到 json 文件：json
+params 参数只需配置 filename 即可
+
+```
+target:
+  type: json
+  params:
+    filename: jsonoutput.json
+    encoding: utf8
+```
+
+- `filename:` json文件名
+- `encoding`: 文件编码方式(可选参数，默认以 utf8 编码)
+
+
