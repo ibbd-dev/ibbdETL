@@ -28,6 +28,8 @@ setup(
         'click',
         'pyyaml',
         'pyelasticsearch',
+        'requests',
+        'pymysql'
     ],
     test_suite="tests"
 )

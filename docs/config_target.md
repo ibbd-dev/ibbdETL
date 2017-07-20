@@ -7,7 +7,7 @@
 - [x] esMapping: 导出成es的mapping配置文件（json格式）
 - [ ] mysql: Mysql数据库
 - [ ] mongodb: MongoDB数据库
-- [ ] json: 输出json的数据格式，需要先映射为宽表
+- [x] json: 输出json的数据格式，需要先映射为宽表
 - [ ] jsonAPI：向http的api接口输出数据，以json的格式。
 - [ ]
 
