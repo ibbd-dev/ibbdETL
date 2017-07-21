@@ -4,7 +4,7 @@
 
 - [x] csv: CSV格式
 - [ ] es: ElasticSearch
-- [ ] mysql: Mysql数据库
+- [x] mysql: Mysql数据库
 - [ ] mongodb: MongoDB数据库
 - [x] json: 输入json的数据格式，需要先映射为宽表
 - [x] jsonAPI：从http的api接口读取数据，以json的格式。
@@ -55,7 +55,41 @@ source:
     defaultValue: 0
 ```
 
-注：从csv读出来的数据都是字符串，通常应该用trim去掉前后的空格，再设置一个默认值
+
+#### 从两个数据源通过关联读取数据
+
+```
+source:
+  type: csv
+  params:
+    filename: input.csv
+    encoding: gbk
+  fields:
+  - name: id
+  - name: name
+
+joinSource:
+  type: csv
+  params:
+    filename: joinSource.csv
+    encoding: gbk
+  fields:
+  - name: user_id
+  - name: email
+
+  leftField: id
+  rightField: user_id
+
+target:
+  type: csv
+  params:
+    filename: output.csv
+```
+
+- `joinSource`: 继承 source 所有特性
+- `leftField`: source 的一个 Field, 与 `rightField` 进行关联
+- `rightField`: joinSource 的一个 Field 与 `leftField` 进行关联
+
 
 ### 1.2 CSV文件格式: csv
 参数只说明`params`部分，如：
@@ -70,7 +104,7 @@ source:
 - `delimiter`: 定义csv文件中的字段分隔符
 
 注：现在csv数据源尚未支持定义表头。
-
+注：从csv读出来的数据都是字符串，通常应该用trim去掉前后的空格，再设置一个默认值
 
 ### 1.3 MySQL数据库配置: mysql
 从 MySQL 数据库读取数据: 参数只说明`params`部分，如：

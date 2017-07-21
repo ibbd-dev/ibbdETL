@@ -7,7 +7,7 @@
 import click
 import yaml
 
-from src.source import Reader
+from src.source import Reader, JoinSourceReader
 from src.transform import Transform
 from src.target import Target
 
@@ -21,7 +21,10 @@ def main(config_file, console=False, debug=False):
     """
     with open(config_file, encoding='utf-8') as f:
         config_data = yaml.load(f)
-        reader = Reader(config_data['source'])
+        if 'joinSource' in config_data:
+            reader = JoinSourceReader(config_data['source'],config_data['joinSource'])
+        else:
+            reader = Reader(config_data['source'])
 
         target = None
         if not console:
@@ -36,6 +39,7 @@ def main(config_file, console=False, debug=False):
         transform = None
         if 'transform' in config_data:
             transform = Transform(config_data['transform'])
+
 
         count = 0
         finish_run = False

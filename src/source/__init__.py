@@ -21,10 +21,8 @@ class Reader:
     new_keys_init = False
 
     def __init__(self, config):
+        config['fieldNotMatch'] = config['fieldNotMatch'] if 'fieldNotMatch' in config else 'drop'
         if 'fields' in config:
-            if 'fieldNotMatch' not in config:
-                config['fieldNotMatch'] = 'drop'
-
             for field in config['fields']:
                 if 'trim' not in field:
                     field['trim'] = False
@@ -67,7 +65,6 @@ class Reader:
                 else:
                     if self.config['fieldNotMatch'] == 'drop':
                         del(row[key])
-
             yield row
 
     def _parseField(self, val, config):
@@ -100,3 +97,61 @@ class Reader:
                     self.new_keys_list.append(new_key)
                     self.new_keys_map[key] = new_key
         return
+
+class JoinSourceReader():
+    '''
+    从两个数据源通过关联读取数据
+
+    配置示例
+    source:
+      type: csv
+      params:
+        filename: input.csv
+        encoding: gbk
+      fields:
+      - name: id
+      - name: name
+
+    joinSource:
+      type: csv
+      params:
+        filename: joinSource.csv
+        encoding: gbk
+      fields:
+      - name: user_id
+      - name: email
+
+      leftField: id
+      rightField: user_id
+
+    target:
+      type: csv
+      params:
+        filename: output.csv
+    '''
+    def __init__(self,config, joinSourceConfig):
+        self.joinSourceConfig = joinSourceConfig
+        self.reader = Reader(config)
+        self.relationMap = self.constructRelationMap(joinSourceConfig)
+
+    def next(self):
+        for row in self.reader.next():
+            if self.relationMap:
+                try:
+                    row = dict(row, **self.relationMap[row[self.joinSourceConfig['leftField']]])
+                except Exception as e:
+                    row = dict(row, **self.relationMap['defaultValue'])
+            yield row
+
+    def constructRelationMap(self, joinSourceConfig, defaultValue = None):
+        '''
+        读取另一个源,以 rightField 作为 key 其他 fields 当做 value
+        '''
+        relationMap = {}
+        reader = Reader(joinSourceConfig)
+        for row in reader.next():
+            relationMap[row[joinSourceConfig['rightField']]] = row
+        for item in relationMap:
+            relationMap['defaultValue'] = {key:defaultValue for key in relationMap[item].keys()}
+            break
+        return relationMap
