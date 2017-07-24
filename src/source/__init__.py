@@ -21,12 +21,12 @@ class Reader:
     new_keys_init = False
 
     def __init__(self, config):
+        self.unique = set()
+        config['uniqueField'] = config['uniqueField'] if 'uniqueField' in config else None
         config['fieldNotMatch'] = config['fieldNotMatch'] if 'fieldNotMatch' in config else 'drop'
         if 'fields' in config:
             for field in config['fields']:
-                if 'trim' not in field:
-                    field['trim'] = False
-
+                field['trim'] = field['trim'] if 'trim' in field else False
                 if 'name' in field:
                     self.match_fields[field['name']] = field
                 elif 'fieldMatch' in field:
@@ -65,7 +65,13 @@ class Reader:
                 else:
                     if self.config['fieldNotMatch'] == 'drop':
                         del(row[key])
+            if self.config['uniqueField']:
+                if row[self.config['uniqueField']] in self.unique:
+                    continue
+                else:
+                    self.unique.add(row[self.config['uniqueField']])
             yield row
+
 
     def _parseField(self, val, config):
         """对单个字段进行处理"""
