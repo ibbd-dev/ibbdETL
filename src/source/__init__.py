@@ -21,8 +21,6 @@ class Reader:
     new_keys_init = False
 
     def __init__(self, config):
-        self.unique = set()
-        config['uniqueField'] = config['uniqueField'] if 'uniqueField' in config else None
         config['fieldNotMatch'] = config['fieldNotMatch'] if 'fieldNotMatch' in config else 'drop'
         if 'fields' in config:
             for field in config['fields']:
@@ -65,11 +63,6 @@ class Reader:
                 else:
                     if self.config['fieldNotMatch'] == 'drop':
                         del(row[key])
-            if self.config['uniqueField']:
-                if row[self.config['uniqueField']] in self.unique:
-                    continue
-                else:
-                    self.unique.add(row[self.config['uniqueField']])
             yield row
 
 

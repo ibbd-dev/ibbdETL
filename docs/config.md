@@ -21,7 +21,7 @@
 作用：行
 
 对于满足某些条件的记录应该放弃掉，例如关键字段为空的时候，等等。实现condition如下：
-
+- [x] `unique`: 为某字段设置唯一约束
 - [ ] `empty`: 某字段为空，则删除
 - [ ] `len`: 字符串长度满足某条件的，删除
 - [ ] `match`: 满足或者不满足某正则表达式的，删除
@@ -33,9 +33,18 @@
 - [ ] `lte`: 小于或者等于某个值
 - [ ] `in`: 在一个列表里
 - [ ] `nin`: 不在一个列表里
-- [ ] `example`: 
+- [ ] `example`:
 
 condition都有一个共同的参数：not，该值默认为false，当为true时，则表示对条件的值取反。
+
+#### 1.1 唯一约束 unique
+```
+transfrom:
+  - type: filter
+    name: unique
+    field: fieldname
+```
+- `field`: 列名
 
 ### 2. 字段修改：modifier
 作用：字段
@@ -52,7 +61,7 @@ condition都有一个共同的参数：not，该值默认为false，当为true�
 - [ ] `drop`: 删除某些字段
 - [x] `replace`: 替换
 - [ ] `if`: 可以对字段做if-else分支运算
-- [ ] `example`: 
+- [ ] `example`:
 
 #### 2.1 hash
 
@@ -154,7 +163,7 @@ condition都有一个共同的参数：not，该值默认为false，当为true�
 
 - [x] `graph`: 将宽表数据转化为图关系数据，见[文档](/docs/table2graph.md)
 - [x] `split`: 将一个字段分拆成多行
-- [ ] `example`: 
+- [ ] `example`:
 
 #### 3.1 graph
 见文档`./table2graph.md`
@@ -162,7 +171,7 @@ condition都有一个共同的参数：not，该值默认为false，当为true�
 ### 4. 自定义处理：user
 有些数据处理过程没有涵盖在标准化的过程里，需要用程序进行处理
 
-- [ ] `example`: 
+- [ ] `example`:
 
 ### 5. 条件：condition
 
