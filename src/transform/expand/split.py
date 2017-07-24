@@ -4,7 +4,7 @@
 # Author: Alex
 # Created Time: 2017年05月18日 星期四 10时14分06秒
 from copy import deepcopy
-
+import re
 
 class Transform:
     """
@@ -24,6 +24,7 @@ class Transform:
     def __init__(self, config):
         if 'newField' not in config:
             config['newField'] = config['field']
+        self.split_re = re.compile(config['separator'])
 
         self.config = config
 
@@ -31,7 +32,8 @@ class Transform:
         config = self.config
         data = []
         for row in rows:
-            tmp = row[config['field']].split(config['separator'])
+            # tmp = row[config['field']].split(config['separator'])
+            tmp = re.split(self.split_re,row[config['field']])
             if config['field'] != config['newField']:
                 del(row[config['field']])
 
