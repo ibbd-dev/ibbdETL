@@ -38,13 +38,48 @@
 condition都有一个共同的参数：not，该值默认为false，当为true时，则表示对条件的值取反。
 
 #### 1.1 唯一约束 unique
+
 ```
 transfrom:
   - type: filter
     name: unique
     field: fieldname
 ```
+
 - `field`: 列名
+
+#### 1.2 删除空行 empty
+某字段为空字符串的话，则删除该行
+
+```
+transfrom:
+  - type: filter
+    name: empty
+    field: fieldname
+```
+
+#### 1.3 字段值等于某值，则删除 eq
+
+```
+transfrom:
+  - type: filter
+    name: eq
+    field: fieldname
+    value: ""
+```
+
+#### 1.4 字段值在列表里，则删除 in
+
+```
+transfrom:
+  - type: filter
+    name: in
+    field: fieldname
+    values:
+    - value: "drop1"
+    - value: "drop2"
+```
+
 
 ### 2. 字段修改：modifier
 作用：字段
