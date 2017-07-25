@@ -14,21 +14,20 @@ class Transform:
         name: in
         field: fieldname
         values:
-          - dropvalue
-          - dropvalue2
-          - dorpvalue3
+          - value: dropvalue
+          - value: dropvalue2
+          - value: dorpvalue3
     """
 
     def __init__(self, config):
         self.field = config['field']
-        self.values = list(map(str,config['values']))
+        self.values = (i['value'] for i in config['values'])
         self.config = config
 
     def do(self, rows):
         data = []
         for row in rows:
-            if str(row[self.field]) in self.values:
-                continue
-            else:
+            if row[self.field] not in self.values:
                 data.append(row)
+
         return data
