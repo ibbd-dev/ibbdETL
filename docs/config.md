@@ -22,63 +22,24 @@
 
 对于满足某些条件的记录应该放弃掉，例如关键字段为空的时候，等等。实现condition如下：
 - [x] `unique`: 为某字段设置唯一约束
-- [ ] `empty`: 某字段为空，则删除
+- [x] `empty`: 某字段为空，则删除
 - [ ] `len`: 字符串长度满足某条件的，删除
 - [ ] `match`: 满足或者不满足某正则表达式的，删除
-- [ ] `eq`: 等于某个值
+- [x] `eq`: 等于某个值
 - [ ] `ne`: 不等于某个值
 - [ ] `gt`: 大于某个值
 - [ ] `gte`: 大于或者等于某个值
 - [ ] `lt`: 小于某个值
 - [ ] `lte`: 小于或者等于某个值
-- [ ] `in`: 在一个列表里
+- [x] `in`: 在一个列表里
 - [ ] `nin`: 不在一个列表里
 - [ ] `example`:
 
 condition都有一个共同的参数：not，该值默认为false，当为true时，则表示对条件的值取反。
 
-#### 1.1 唯一约束 unique
+数据过滤相关的配置见文档：
 
-```
-transfrom:
-  - type: filter
-    name: unique
-    field: fieldname
-```
-
-- `field`: 列名
-
-#### 1.2 删除空行 empty
-某字段为空字符串的话，则删除该行
-
-```
-transfrom:
-  - type: filter
-    name: empty
-    field: fieldname
-```
-
-#### 1.3 字段值等于某值，则删除 eq
-
-```
-transfrom:
-  - type: filter
-    name: eq
-    field: fieldname
-    value: ""
-```
-
-#### 1.4 字段值在列表里，则删除 in
-
-```
-transfrom:
-  - type: filter
-    name: in
-    field: fieldname
-    values:
-    - value: "drop1"
-    - value: "drop2"
-```
+[数据过滤配置](/docs/config_filter.md)
 
 
 ### 2. 字段修改：modifier

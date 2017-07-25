@@ -23,8 +23,6 @@ class Transform:
     def do(self, rows):
         data = []
         for row in rows:
-            if not row[self.emptyField]:
-                continue
-            else:
+            if row[self.emptyField]:
                 data.append(row)
         return data

@@ -18,14 +18,12 @@ class Transform:
 
     def __init__(self, config):
         self.eqField = config['field']
-        self.value = str(config['value'])
+        self.value = config['value']
         self.config = config
 
     def do(self, rows):
         data = []
         for row in rows:
-            if str(row[self.eqField]) == self.value:
-                continue
-            else:
+            if row[self.eqField] != self.value:
                 data.append(row)
         return data

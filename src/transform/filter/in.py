@@ -21,13 +21,13 @@ class Transform:
 
     def __init__(self, config):
         self.field = config['field']
-        self.values = (i['value'] for i in config['values'])
+        self.values = [i['value'] for i in config['values']]
         self.config = config
+        print(type(self.values[0]))
 
     def do(self, rows):
         data = []
         for row in rows:
             if row[self.field] not in self.values:
                 data.append(row)
-
         return data
