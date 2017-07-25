@@ -5,7 +5,6 @@
 
 - [x] `unique`: 为某字段设置唯一约束
 - [x] `empty`: 某字段为空，则删除
-- [ ] `len`: 字符串长度满足某条件的，删除
 - [ ] `match`: 满足或者不满足某正则表达式的，删除
 - [x] `eq`: 等于某个值
 - [ ] `ne`: 不等于某个值
@@ -49,7 +48,10 @@ transfrom:
     name: eq
     field: fieldname
     value: somevalue
+    len: true
 ```
+
+- len: 默认false，如果为true的话，则先对字段值计算长度
 
 ## 4 字段值在列表里，则删除 in
 
