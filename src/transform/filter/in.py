@@ -4,6 +4,7 @@
 # Email: mojh@ibbd.net
 # Created Time: 2017-07-25 09:54:35
 
+
 class Transform:
     """
     某个字段的值在列表中，则删除该行数据
@@ -23,11 +24,11 @@ class Transform:
         self.field = config['field']
         self.values = [i['value'] for i in config['values']]
         self.config = config
-        print(type(self.values[0]))
 
     def do(self, rows):
         data = []
         for row in rows:
             if row[self.field] not in self.values:
                 data.append(row)
+
         return data
