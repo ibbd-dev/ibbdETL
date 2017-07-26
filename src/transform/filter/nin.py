@@ -2,21 +2,21 @@
 
 # Author: mojiehua
 # Email: mojh@ibbd.net
-# Created Time: 2017-07-25 09:54:35
+# Created Time: 2017-07-26 09:47:03
 
 class Transform:
     """
-    某个字段的值在列表中，则删除该行数据
+    某个字段的值不在列表中，则删除该行数据
     field: 字段名
     配置样例：
     transfrom:
       - type: filter
-        name: in
+        name: nin
         field: fieldname
         values:
-          - value: dropvalue
-          - value: dropvalue2
-          - value: dorpvalue3
+          - value: keepvalue
+          - value: keepvalue2
+          - value: keepvalue3
     """
 
     def __init__(self, config):
@@ -27,6 +27,6 @@ class Transform:
     def do(self, rows):
         data = []
         for row in rows:
-            if row[self.field] not in self.values:
+            if row[self.field] in self.values:
                 data.append(row)
         return data
