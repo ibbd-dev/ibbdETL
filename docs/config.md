@@ -42,8 +42,18 @@
 ### 4. 自定义处理：user
 有些数据处理过程没有涵盖在标准化的过程里，需要用程序进行处理
 
+```
+transfrom:
+  - type: user
+    path: ./example.py
+    func: change_time
+```
 - `path`: python文件路径
 - `func`: 函数名
+
+函数 `func` 接收一个由 collections.OrderedDict 组成的列表,每一个元素包含一行记录
+
+返回一个处理后的由 collections.OrderedDict 组成的列表
 
 ### 5. 条件：condition
 
