@@ -33,7 +33,7 @@ class Transform:
         data = []
         for row in rows:
             # tmp = row[config['field']].split(config['separator'])
-            tmp = re.split(self.split_re,row[config['field']])
+            tmp = self.split_re.split(row[config['field']])
             if config['field'] != config['newField']:
                 del(row[config['field']])
 

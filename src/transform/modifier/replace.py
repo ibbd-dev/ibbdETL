@@ -45,7 +45,7 @@ class Transform:
 
     def _re_replace(self, val):
         val = str(val)
-        return re.sub(self.config['old'], self.config['new'], val)
+        return self.config['old'].sub(self.config['new'], val)
 
     def _replace(self, val):
         return val.replace(self.config['old'],

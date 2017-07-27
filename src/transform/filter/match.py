@@ -32,7 +32,7 @@ class Transform:
     def do(self, rows):
         data = []
         for row in rows:
-            matchResult = re.match(self.rePattern,row[self.field])
+            matchResult = self.rePattern.match(row[self.field])
             if self.keep and matchResult:
                 data.append(row)
             elif self.drop and (not matchResult):
