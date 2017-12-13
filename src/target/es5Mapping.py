@@ -15,16 +15,19 @@ float_re = re.compile('^\d+\.\d+$')
 class Target:
     """
     写入es的mapping配置文件。支持参数：
-    filename: /path/to/filename      # 保存的文件名
-    fields:             # 特殊字段配置
-    - name: 检测日期    # 字段名，可以为中文
-      config:           # 字段配置
-      - type: date      # 指定的类型
-        format: "yyyy/MM/dd"    # 定义日期格式
-    - name: content     # 字段名
-      config:           # 字段配置
-      - type: text      # 指定类型
-        keyword: True   # 是否需要keyword，默认为False
+    type: es5Mapping
+    rowsLimit: 1000
+    params:
+      filename: /tmp/pintu_mapping.csv    # 保存的文件名
+      fields:                             # 特殊字段定义
+      - name: 支付时间                    # 字段名, 支持中文
+        config:
+          type: date
+          format: "yyyy/MM/dd"
+      - name: content
+        config:
+          type: text
+          keyword: True   # 是否需要keyword，默认为False
     """
     params = {}
     fieldsMap = {}
@@ -62,8 +65,8 @@ class Target:
         if 'fields' in params:
             for field in params['fields']:
                 self.fieldsMap[field['name']] = field['config']
-                if field['type'] == 'text':    # 补充text的字段定义
-                    if 'keyword' not in field['type']:
+                if field['config']['type'] == 'text':    # 补充text的字段定义
+                    if 'keyword' not in field['config']:
                         self.fieldsMap[field['name']]['keyword'] = False
 
     def write(self, row):
