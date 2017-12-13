@@ -19,3 +19,7 @@ target:
       config:
         type: date
         format: "yyyy/MM/dd"
+    - name: orderTime
+      config:
+        type: date
+        format: "yyyy/MM/dd"
