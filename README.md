@@ -5,6 +5,7 @@
 
 ```sh
 # install
+# 注意：可能需要sudo
 python3 setup.py install
 
 # 帮助
