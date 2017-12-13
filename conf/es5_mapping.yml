@@ -1,19 +1,21 @@
 source:
   type: csv
+  fieldNotMatch: keep
   params:
     filename: /tmp/pintu.csv
     delimiter: ','
 
 target:
   type: es5Mapping
-  filename: /tmp/es5_mapping.json
-  fields:
-  - name: 支付时间
-    config:
-    - type: date
-      format: "yyyy/MM/dd"
-  - name: 开航时间
-    config:
-    - type: date
-      format: "yyyy/MM/dd"
-
+  rowsLimit: 1000
+  params:
+    filename: /tmp/pintu_mapping.csv
+    fields:
+    - name: 支付时间
+      config:
+        type: date
+        format: "yyyy/MM/dd"
+    - name: 开航时间
+      config:
+        type: date
+        format: "yyyy/MM/dd"
